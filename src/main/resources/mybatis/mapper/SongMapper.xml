@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.light.light_music.mapper.SongMapper">
+    <!--查询所有-->
+    <select id="findAll" resultType="s">
+        select * from song order by ranking asc
+    </select>
+    <!--根据uuid查询-->
+    <select id="findBySongId" parameterType="java.lang.String" resultType="s">
+        select * from song where uuid = #{uuid}
+    </select>
+    <!--根据歌曲名称查询-->
+    <select id="findBySongName" parameterType="java.lang.String" resultType="s">
+        select * from song where songName like concat('%',#{songName},'%') order by ranking asc
+    </select>
+    <!--根据歌手的名称查询-->
+    <select id="findBySinger" parameterType="java.lang.String" resultType="s">
+        select * from song where singer like concat('%',#{singer},'%')
+    </select>
+    <!--根据歌手的名称查询-->
+    <select id="findSongsBySinger" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from song where singer like concat('%',#{singer},'%')
+    </select>
+    <!--根据歌曲所在榜单分组查询-->
+    <select id="findBySongGroup" parameterType="java.lang.String" resultMap="sg">
+        select s.*,g.*
+        from song s ,song_groups ,groups g
+        where s.uuid =  song_groups.songId
+        and g.id = song_groups.groupId
+        and g.songGroup = #{songGroup}
+        order by s.ranking asc
+    </select>
+    <resultMap id="sg" type="s">
+        <result property="uuid" column="uuid"/>
+        <result property="songName" column="songName"/>
+        <result property="singer" column="singer"/>
+        <result property="path" column="path"/>
+        <result property="fileSize" column="fileSize"/>
+        <result property="playTime" column="playTime"/>
+        <result property="ranking" column="ranking"/>
+        <result property="status" column="status"/>
+        <result property="realFloat" column="realFloat"/>
+        <result property="lrc" column="lrc"/>
+        <collection property="groups" ofType="g">
+            <result property="id" column="id"/>
+            <result property="songGroup" column="songGroup"/>
+        </collection>
+    </resultMap>
+    <!--根据歌曲的歌手名称查询对应专辑的数量-->
+    <select id="findAlbumSumBySinger" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from song_album
+        where songId in(select uuid from song where singer like concat('%',#{singer},'%'))
+    </select>
+    <!--根据歌曲的uuid查询对应专辑-->
+    <select id="findAlbumBySongId" parameterType="java.lang.String" resultMap="sa">
+        select s.*,a.*
+        from song s,album a,song_album
+        where s.uuid = song_album.songId
+        and song_album.albumId = a.id
+        and s.uuid = #{uuid}
+        order by s.ranking asc
+    </select>
+    <resultMap id="sa" type="s">
+        <result property="uuid" column="uuid"/>
+        <result property="songName" column="songName"/>
+        <result property="singer" column="singer"/>
+        <result property="path" column="path"/>
+        <result property="fileSize" column="fileSize"/>
+        <result property="playTime" column="playTime"/>
+        <result property="ranking" column="ranking"/>
+        <result property="status" column="status"/>
+        <result property="realFloat" column="realFloat"/>
+        <result property="lrc" column="lrc"/>
+        <association property="album" javaType="a">
+            <result property="id" column="id"/>
+            <result property="image" column="image"/>
+            <result property="albumName" column="albumName"/>
+            <result property="counts" column="counts"/>
+            <result property="singer" column="singer"/>
+        </association>
+    </resultMap>
+    <!--添加歌曲-->
+    <insert id="save" parameterType="s">
+        insert into song (uuid,songName,singer,path,
+        fileSize,playTime,ranking,status,realFloat,lrc)
+        values (#{uuid},#{songName},#{singer},#{path},#{fileSize},
+        #{playTime},#{ranking},#{status},#{realFloat},#{lrc})
+    </insert>
+    <!--向中间表中插入添加榜单-->
+    <insert id="addSongGroup" parameterType="map">
+        insert into song_groups (songId,groupId) values (#{songId},#{groupId})
+    </insert>
+    <!--更新歌曲的排名-->
+    <update id="update" parameterType="s">
+        update song set songName = #{songName},singer = #{singer},path = #{path},
+        fileSize = #{fileSize},playTime = #{playTime},ranking = #{ranking},
+        status = #{status},realFloat = #{realFloat},lrc = #{lrc}
+        where uuid = #{uuid}
+    </update>
+    <!--删除歌曲-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from song where uuid = #{uuid}
+    </delete>
+    <!--删除中间表-->
+    <delete id="deleteSongGroup" parameterType="java.lang.String">
+        delete from song_groups where songId = #{songId}
+    </delete>
+</mapper>

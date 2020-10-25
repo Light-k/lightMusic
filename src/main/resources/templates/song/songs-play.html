@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <link rel="stylesheet" th:href="@{/plugins/iCheck/square/blue.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+    <script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--正文-->
+<div class="middle">
+    <div class="middle-song">
+        <!-- 内容头部 -->
+        <section class="main-content-header">
+            <!--工具栏-->
+            <div class="pull-left">
+                <span id="tip" style="overflow: hidden;font-size: 20px;"></span>
+            </div>
+        </section>
+        <!--歌曲列表-->
+        <table class="table-hover" style="color: whitesmoke;margin-left: 30px;">
+            <thead style="display: block;font-size: 20px">
+            <tr>
+                <th style="width: 400px;height: 50px" class="text-center">歌曲名称</th>
+                <th style="width: 550px;height: 50px" class="text-center">演唱歌手</th>
+                <th style="width: 300px;height: 50px" class="text-center">播放时长</th>
+                <th style="width: 350px;height: 50px" class="text-center">歌曲的排名</th>
+                <th style="width: 300px;height: 50px" class="text-center">专辑名称</th>
+                <th style="width: 500px;height: 50px" class="text-center"></th>
+            </tr>
+            </thead>
+            <tbody style="display: block;overflow-y: auto;height: 650px;font-size: 10px">
+            <tr th:each="song:${songs}" th:if="${not #lists.isEmpty(song)}">
+                <td style="width: 400px;height: 70px" class="text-left">
+                    <img th:src="@{/} + ${song.getAlbum().getImageStr()}" alt="图片加载失败"
+                         style="max-width: 50px;max-height: 50px;line-height: 50px">
+                    [[${song.getSongName()}]]
+                </td>
+                <td style="width: 500px;height: 70px" class="text-center" th:text="${song.getSinger()}"></td>
+                <td style="width: 300px;height: 70px" class="text-center" th:text="${song.getPlayTime()}"></td>
+                <td style="width: 350px;height: 70px" class="text-center" th:text="${song.getRanking()}"></td>
+                <td style="width: 300px;height: 70px" class="text-center"
+                    th:text="${song.getAlbum().getAlbumName()}"></td>
+                <td style="width: 500px;height: 70px" class="text-center">
+                    <button class="btn-primary" th:onclick="toPlay([[${song.getSongName()}]])" title="播放">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-headphones" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M8 3a5 5 0 0 0-5 5v4.5H2V8a6 6 0 1 1 12 0v4.5h-1V8a5 5 0 0 0-5-5z"/>
+                            <path d="M11 10a1 1 0 0 1 1-1h2v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3zm-6 0a1 1 0 0 0-1-1H2v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3z"/>
+                        </svg>
+                        播放
+                    </button>
+                    <button class="btn-danger" th:if="${#strings.isEmpty(song.getLove())}"
+                            th:onclick="love([[${song.getUuid()}]])" title="我喜欢">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-suit-heart-fill"
+                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                        </svg>
+                        我喜欢
+                    </button>
+                    <button class="btn-danger" th:if="${not #strings.isEmpty(song.getLove())}"
+                            th:onclick="removeLove([[${song.getLove().getUuid()}]])" title="取消关注">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-suit-heart-fill"
+                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                        </svg>
+                        取消关注
+                    </button>
+                    <button th:onclick="toComment([[${song.getUuid()}]])" title="评论">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-square" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M14 1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2.5a2 2 0 0 1 1.6.8L8 14.333 9.9 11.8a2 2 0 0 1 1.6-.8H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        </svg>
+                        评论
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="middle-detail">
+        <div>
+            <textarea id="txt" cols="30" rows="10" style="display: none">
+
+            </textarea>
+            <article class="photo">
+                <div class="title"></div>
+                <div class="singer"></div>
+                <div class="lrc">
+                    <div class="lrcContent">
+
+                    </div>
+                </div>
+            </article>
+            <div>
+                <p id="light" th:value="${songs}"></p>
+            </div>
+            <audio id="play">
+                <source type="audio/mpeg">
+                您的浏览器不支持音频播放
+            </audio>
+        </div>
+    </div>
+</div>
+<!--底部工具栏-->
+<div class="foot">
+    <div class="foot-left">
+        <div class="before">
+            <div class="glyphicon glyphicon-step-backward" onclick="pre()"></div>
+        </div>
+        <div class="start" onclick="play()">
+            <div class="glyphicon glyphicon-play"></div>
+        </div>
+        <div class="after">
+            <div class="glyphicon glyphicon-step-forward" onclick="next()"></div>
+        </div>
+    </div>
+    <div class="foot-middle">
+        <div class="info-image">
+            <img id="img" alt="图片加载失败" style="max-height: 60px;max-width: 60px;">
+        </div>
+        <div class="info-description">
+            <div class="info-songName"></div>
+            <div class="info-singer"></div>
+        </div>
+    </div>
+    <div class="foot-right">
+        <div class="main-content-footer-progress" style="float: left">
+            <div style="padding: 10px 20px">
+                <div style="height: 30px;text-align: right">
+                    <span id="currentTime">00:00</span>
+                    <span>/</span>
+                    <span id="totalTime">00:00</span>
+                </div>
+                <div id="dot" class="dot"></div>
+                <div class="progress"
+                     style="height: 5px;width: 100%;margin-top: 7.5px;margin-left: 10px;border-radius: 20%">
+                    <div id="progress" style="height: 5px;background-color: #1c7430">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="width: 10%;height: 100%;float: left"></div>
+        <div class="sound">
+            <div style="margin-top: 20px;margin-left: 10px;margin-right: 5px;float: left"
+                 class="glyphicon glyphicon-random" onclick="randomPlay()" title="随机播放"></div>
+            <div style="margin: 20px 5px;float: left" class="glyphicon glyphicon-list" onclick="SequencePlay()" title="顺序播放"></div>
+            <div style="margin: 20px 5px;float: left" class="glyphicon glyphicon-retweet" onclick="singlePlay()" title="单曲循环"></div>
+            <div id="sound" style="margin: 20px 5px;float: left" class="glyphicon glyphicon-volume-up"
+                 onclick="sound()"></div>
+            <div style="margin: 20px 5px;float: left;width: 35%">
+                <div id="soundDot" class="soundDot"></div>
+                <div class="progress"
+                     style="height: 5px;width: 100%;margin-top: 7.5px;margin-left: 10px;border-radius: 20%">
+                    <div id="soundProgress" style="float: left;height: 5px;background-color: #0d6aad"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="width: 10%;height: 100%;float: right"></div>
+</div>
+</body>
+<script type="text/javascript">
+
+    let song = [];                  //初始化歌曲数组
+    /**
+     * 页面初始化
+     */
+    window.onload = function () {
+        let cookie_value = cookie("loginUser");
+        if (cookie_value !== ""){
+            get("#login-hello").style.display = "block";
+            get("#login-ul").style.display = "block";
+            get("#login-user").innerHTML = "【当前用户：" + cookie_value + "】";
+            get("#login-before").style.display = "none";
+            get("#login-after").style.display = "block";
+        }
+        let songs = get("#light").getAttribute("value");
+        let s = songs.substring(1, songs.lastIndexOf("]"));
+        let prefix = s.split("Song");
+        for (let i = 1; i < prefix.length; i++) {
+            let arr = [];               //初始化临时数组
+            let songNameStr = prefix[i].substring(prefix[i].indexOf("songName"), prefix[i].indexOf("singer"));
+            let songName = songNameStr.split("=")[1].split(",")[0];             //获取歌曲的名称
+            let singerStr = prefix[i].substring(prefix[i].indexOf("singer"), prefix[i].indexOf("path"));
+            let singer = singerStr.split("=")[1].split(",")[0];             //获取歌曲的歌手
+            let songPathStr = prefix[i].substring(prefix[i].indexOf("songPath"), prefix[i].indexOf("realFloatStr"));
+            let songPath = songPathStr.substring(songPathStr.indexOf("music")).split(",")[0];               //获取歌曲路径
+            let imageStr = prefix[i].substring(prefix[i].indexOf("imageStr"), prefix[i].indexOf("pathStr"));
+            let imagePathStr = imageStr.split(",")[0];
+            let imagePath = imagePathStr.substring(imagePathStr.indexOf("music"), imagePathStr.lastIndexOf(")"));        //获取歌曲的封面
+            let lrcStr = prefix[i].substring(prefix[i].indexOf("["), prefix[i].indexOf("groups"));
+            let lrc = lrcStr.split(",")[0];
+            arr.songName = songName.trim();
+            arr.singer = singer.trim();
+            arr.songPath = songPath.trim();
+            arr.image = imagePath.trim();
+            arr.lrc = lrc.trim();
+            song.push(arr);
+        }
+    }
+
+    /**
+     * 用户的临时播放列表
+     */
+    let user = [];          //初始化用户的临时播放数组
+    let counts = 0;         //初始化用户的试听歌曲数
+    let playCommand;         //播放命令
+
+    /**
+     * 初始化播放
+     */
+    function toPlay(songName) {
+        let arr = [];               //初始化临时数组
+        if (0 === counts) {
+            arr.songName = songName.trim();
+            user.push(arr);
+            counts++;
+        } else {
+            let flag = false;            //与上次播放的歌曲不相同
+            for (let i = 0; i < user.length; i++) {
+                if (songName.trim() === user[i].songName) {
+                    flag = true;            //与上次播放的歌曲相同
+                    break;
+                }
+            }
+            if (!flag) {
+                arr.songName = songName.trim();
+                user.push(arr);
+                counts++;
+            }
+        }
+        $.ajax({
+            url: "[[@{/user/toPlay.do/}]]" + counts,
+            async: false,
+            success: function (data) {
+                if (data === "正在为您播放：") {
+                    get("#tip").style.color = "green";
+                    get("#tip").innerText = data + songName;
+                    playCommand = true;
+                } else {
+                    get("#tip").style.color = "red";
+                    get("#tip").innerText = data;
+                    playCommand = false;
+                }
+            }
+        });
+        if (playCommand) {
+            for (let i = 0; i < song.length; i++) {
+                if (songName.trim() === song[i].songName) {
+                    get("#img").setAttribute("src", song[i].image);
+                    if (song[i].image.indexOf("(") != -1 || song[i].image.indexOf("《") != -1 || song[i].image.indexOf(" ") != -1) {               //判断url中是否包含"("
+                        get(".photo")[0].style.backgroundImage = "url(\"" + song[i].image + "\")";
+                    } else {
+                        get(".photo")[0].style.backgroundImage = "url(" + song[i].image + ")";
+                    }
+                    get(".info-songName")[0].innerHTML = song[i].songName;
+                    get(".title")[0].innerHTML = song[i].songName;
+                    get(".info-singer")[0].innerHTML = song[i].singer;
+                    get(".singer")[0].innerHTML = song[i].singer;
+                    prepareSong(song[i].songPath);
+                    prepareLrc(song[i].lrc);
+                    play();
+                    if (counts > 1) {
+                        if (playTurn) {
+                            play();
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 加载歌曲
+     */
+    function prepareSong(songPath) {
+        get("#play").src = songPath;
+        get("#play").load();
+    }
+
+    /**
+     *加载歌词
+     */
+    function prepareLrc(lrc) {
+        let lrcArr = lrc.split("[");        //分隔数组
+        let html = "";                      //初始化页面
+        for (let i = 0; i < lrcArr.length; i++) {
+            let time = lrcArr[i].split("]");                //取出时间
+            let millisecond = time[0].split(".");           //取出毫秒
+            let second = millisecond[0].split(":");        //取出秒
+            let sumSecond = second[0] * 60 + parseInt(second[1]);    //计算出总的毫秒时间
+            let txt = time[1];              //取出歌词
+            if (txt) {
+                html += "<p id= 's" + sumSecond + "'>" + txt + "</p>";         //将歌词放入初始化页面中
+            }
+            get(".lrcContent")[0].innerHTML = html;              //显示歌词
+        }
+    }
+
+    /**
+     * 歌词同步时间
+     */
+    //设置歌曲监听器
+    get("#play").addEventListener("timeupdate", function () {
+        let time = parseInt(this.currentTime);              //获取当前时间
+        if (get("#s" + time)) {
+            for (let i = 0; i < get("p").length; i++) {
+                get("p")[i].style.cssText = "color: #6c757d";
+                if (i > 2) {
+                    if (get("p")[i].id == ("s" + time)) {
+                        get(".lrcContent")[0].style.top = -36 * (i - 3) + "px";      //每次的偏移量
+                    }
+                }
+            }
+            get("#s" + time).style.cssText = "color: red";
+        }
+    })
+
+    let playTurn = true;        //标记播放状态
+    let timer;              //设置计时器
+    /**
+     * 音乐播放功能
+     */
+    function play() {
+        if (playTurn) {
+            get("#play").play();
+            get(".start")[0].innerHTML = "<div class=\"glyphicon glyphicon-pause\"></div>";      //修改播放图标
+            let songVolume = get("#play").volume = 0.5;                 //设置当前歌曲的音量
+            let soundProgressWidth = get(".progress")[1].offsetWidth;        //获取音量的进度条的总长度
+            get("#soundDot").style.marginLeft = soundProgressWidth * songVolume + "px";          //初始化当前音量进度条的小圆点位置
+            get("#soundProgress").style.width = soundProgressWidth * songVolume + "px";          //初始化当前音量进度条的位置
+            playTurn = false;       //修改播放状态
+            timer = setInterval(progressTime, 1000);         //开启计时器
+        } else {
+            get("#play").pause();
+            get(".start")[0].innerHTML = "<div class=\"glyphicon glyphicon-play\"></div>";       //修改播放图标
+            playTurn = true;       //修改播放状态
+            clearInterval(timer);                   //关闭计时器
+        }
+    }
+
+    /**
+     * 播放结束后自动暂停
+     */
+    get("#play").addEventListener("ended", function () {
+        let totalTime = get("#play").duration;              //当前歌曲的总播放时间
+        let minute = parseInt(totalTime / 60);
+        let second = parseInt(totalTime % 60);
+        (second >= 10) == true ? get("#currentTime").innerText = "0" + minute + ":" + second : get("#currentTime").innerText = "0" + minute + ":" + "0" + second;
+        play();
+    })
+
+    /**
+     * 播放上一首
+     */
+    function pre() {
+        let currentSong = get("#play").getAttribute("src");
+        for (let i = 0; i < song.length; i++) {
+            if (currentSong.trim() === song[i].songPath) {
+                if (0 <= (i - 1)) {
+                    toPlay(song[i - 1].songName);
+                    break;
+                } else {
+                    toPlay(song[song.length - 1].songName);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 播放下一首
+     */
+    function next() {
+        let currentSong = get("#play").getAttribute("src");
+        for (let i = 0; i < song.length; i++) {
+            if (currentSong.trim() === song[i].songPath) {
+                if (currentSong.trim() === song[song.length - 1].songPath) {
+                    toPlay(song[0].songName);
+                    break;
+                } else {
+                    toPlay(song[i + 1].songName);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 歌曲的进度条
+     */
+    function progressTime() {
+        let currentTime = get("#play").currentTime;         //当前歌曲播放的时间
+        let totalTime = get("#play").duration;              //当前歌曲的总播放时间
+        let progress = get(".progress")[0].offsetWidth;               //进度条总长度
+        let num = parseInt(currentTime / totalTime * progress);       //小圆点的偏移量
+        let cMinute = parseInt(currentTime / 60);
+        let cSecond = parseInt(currentTime % 60);
+        let tMinute = parseInt(totalTime / 60);
+        let tSecond = parseInt(totalTime % 60);
+        (cSecond >= 10) == true ? get("#currentTime").innerText = "0" + cMinute + ":" + cSecond : get("#currentTime").innerText = "0" + cMinute + ":" + "0" + cSecond;
+        (tSecond >= 10) == true ? get("#totalTime").innerText = "0" + tMinute + ":" + tSecond : get("#totalTime").innerText = "0" + tMinute + ":" + "0" + tSecond;
+        get("#dot").style.marginLeft = num + "px";
+        get("#progress").style.width = num + "px";
+    }
+
+    /**
+     *拖拽歌曲的进度条
+     */
+    get("#dot").onmousedown = function () {
+        document.onmousemove = function (e) {
+            let x = e.clientX;          //计算出当前小圆点距离最左边的位置
+            let position = x - get(".progress")[0].offsetLeft;      //小圆点的偏移量
+            let progressWidth = get(".progress")[0].offsetWidth;    //获取进度条的总长度
+            if (position >= 0 && position <= progressWidth) {
+                get("#dot").style.marginLeft = position + "px";
+                get("#progress").style.width = position + "px";
+            }
+            let totalTime = get("#play").duration;              //获取歌曲的总时间
+            get("#play").currentTime = parseInt(getComputedStyle(get("#dot")).marginLeft) / progressWidth * totalTime;  //设置歌曲的当前播放时间
+        }
+        document.onmouseup = function () {
+            this.onmousedown = null;
+            this.onmousemove = null;
+        }
+    }
+
+    /**
+     * 随机播放
+     */
+    function randomPlay() {
+        get("#play").loop = false;                       //关闭循环播放
+        get("#play").addEventListener("ended", function () {
+            let index = parseInt(Math.random() * (song.length - 1));          //生成一个随机整数,范围在0-song数组的长度-1
+            toPlay(song[index].songName);
+        })
+    }
+
+    /**
+     * 列表播放
+     */
+    function SequencePlay() {
+        get("#play").loop = false;                       //关闭循环播放
+        get("#play").addEventListener("ended", function () {
+            next();
+        })
+    }
+
+    /**
+     * 单曲循环播放
+     */
+    function singlePlay() {
+        get("#play").loop = true;                       //开启循环播放
+    }
+
+    /**
+     * 声音按钮
+     */
+    let soundTurn = true;               //标记声音开关
+    function sound() {
+        if (soundTurn) {
+            get("#play").volume = 0;
+            get("#sound").setAttribute("class", "glyphicon glyphicon-volume-off");      //修改播放图标
+            soundTurn = false;       //修改声音开关
+        } else {
+            let soundProgressWidth = get(".progress")[1].offsetWidth;    //获取音量的进度条的总长度
+            get("#play").volume = parseInt(getComputedStyle(get("#soundDot")).marginLeft) / soundProgressWidth * 1;  //设置歌曲的音量
+            get("#sound").setAttribute("class", "glyphicon glyphicon-volume-up");      //修改播放图标
+            soundTurn = true;       //修改声音开关
+        }
+    }
+
+    /**
+     *拖拽声音的进度条
+     */
+    get("#soundDot").onmousedown = function () {
+        document.onmousemove = function (e) {
+            let x = e.clientX;          //计算出当前音量的进度条小圆点距离最左边的位置
+            let position = x - get(".progress")[1].offsetLeft;      //音量的进度条小圆点的偏移量
+            let soundProgressWidth = get(".progress")[1].offsetWidth;    //获取音量的进度条的总长度
+            if (position >= 0 && position <= soundProgressWidth) {
+                get("#soundDot").style.marginLeft = position + "px";
+                get("#soundProgress").style.width = position + "px";
+            }
+            get("#play").volume = parseInt(getComputedStyle(get("#soundDot")).marginLeft) / soundProgressWidth * 1;  //设置歌曲的音量
+        }
+        document.onmouseup = function () {
+            this.onmousedown = null;
+            this.onmousemove = null;
+        }
+    }
+
+    /**
+     * 收藏歌曲
+     * @param songId:想要收藏的歌曲的uuid值
+     */
+    function love(songId) {
+        $.get({
+            url: "[[@{/song/myLove.do/}]]" + songId,
+            success: function (data) {
+                if (data === "已收藏") {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
+    /**
+     * 取消关注
+     * @param loveId:取消关注的歌曲的uuid值
+     */
+    function removeLove(loveId) {
+        $.get({
+            url: "[[@{/song/removeMyLove.do/}]]" + loveId,
+            success: function (data) {
+                if (data === "已取消关注") {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
+    /**
+     * 跳转到评论的页面
+     */
+    function toComment(songId) {
+        window.location.href = "[[@{/toComment.do/}]]" + songId;
+    }
+
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+</html>

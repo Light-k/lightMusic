@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.light.light_music.mapper.SingerMapper">
+    <!--根据歌手的uuid值查询-->
+    <select id="findByUuid" parameterType="java.lang.String" resultType="sr">
+        select * from singer where uuid = #{uuid}
+    </select>
+    <!--查询所有-->
+    <select id="findAll" resultType="sr">
+        select * from singer
+    </select>
+    <!--根据歌手的名称查询-->
+    <select id="findBySingers" parameterType="java.lang.String" resultType="sr">
+        select * from singer where singer like concat('%',#{singer},'%')
+    </select>
+    <!--sql片段：便于根据歌手的详细信息查询-->
+    <sql id="findSinger">
+        <if test="firstLatter!=null">
+            and firstLatter = #{firstLatter}
+        </if>
+        <if test="sex!=null">
+            and sex = #{sex}
+        </if>
+        <if test="region!=null">
+            and region = #{region}
+        </if>
+        <if test="singerType!=null">
+            and singerType = #{singerType}
+        </if>
+    </sql>
+    <!--根据歌手的名称的首字母/性别/所在的地区/演唱的曲风查询-->
+    <select id="querySinger" parameterType="sr" resultType="sr">
+        select * from singer
+        <where>
+            <include refid="findSinger"></include>
+        </where>
+    </select>
+    <!--根据歌手的名称查询-->
+    <select id="findBySinger" parameterType="java.lang.String" resultType="sr">
+        select * from singer where singer = #{singer}
+    </select>
+    <!--添加歌手-->
+    <insert id="save" parameterType="sr">
+        insert into singer (uuid,singer,sex,region,team,singerType,path,firstLatter)
+        values (#{uuid},#{singer},#{sex},#{region},#{team},#{singerType},#{path},#{firstLatter})
+    </insert>
+    <!--更新歌手信息-->
+    <update id="update" parameterType="sr">
+        update singer set singer = #{singer},sex = #{sex},region = #{region},
+        team = #{team},singerType = #{singerType},path = #{path},firstLatter = #{firstLatter}
+        where uuid = #{uuid}
+    </update>
+    <!--删除歌曲-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from singer where uuid = #{uuid}
+    </delete>
+</mapper>

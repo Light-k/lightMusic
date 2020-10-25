@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <link rel="stylesheet" th:href="@{/plugins/iCheck/square/blue.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+    <script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+    <script th:src="@{/plugins/jQueryUI/jquery-ui.min.js}"></script>
+    <script th:src="@{/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js}"></script>
+    <script th:src="@{/plugins/iCheck/icheck.min.js}"></script>
+    <script th:src="@{/plugins/select2/select2.full.min.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--正文-->
+<iframe th:replace="~{commons/commons::songs-group-list-middleBar}" frameborder="0" scrolling="yes"></iframe>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+</body>
+<script th:src="@{/js/cookie.js}"></script>
+<!--全选-->
+<script>
+    $(document).ready(function () {
+        // WYSIHTML5编辑器
+        $(".textarea").wysihtml5({
+            locale: 'zh-CN'
+        });
+        // 全选操作
+        $("#songs-group-list-selall").click(function () {
+            var clicks = $(this).is(':checked');
+            if (!clicks) {
+                $("#songs-group-list-dataList td input[type='checkbox']").iCheck("uncheck");
+            } else {
+                $("#songs-group-list-dataList td input[type='checkbox']").iCheck("check");
+            }
+            $(this).data("clicks", !clicks);
+        });
+    });
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--内容-->
+<div class="middle"
+     style="background-size: 100% 100%;background-repeat: no-repeat;background-image: url('img/index.jpg')">
+    <div class="colorful" style="padding-top: 200px;line-height: 100%;text-align: center;width: 100%">让音乐燃爆你的内心</div>
+</div>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+</body>
+<script th:src="@{/js/cookie.js}"></script>
+<script>
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+</html>

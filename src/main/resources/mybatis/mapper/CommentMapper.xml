@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.light.light_music.mapper.CommentMapper">
+    <!--查询所有-->
+    <select id="findAll" resultType="c">
+        select * from comment order by commentTime desc
+    </select>
+    <!--根据歌曲的uuid值查询-->
+    <select id="findBySongId" resultType="c">
+        select comment.* from comment,song_comment
+        where comment.uuid = song_comment.commentId
+        and song_comment.songId = #{songId}
+        order by comment.commentTime desc
+    </select>
+    <!--根据用户的昵称查询-->
+    <select id="findByNickname" resultType="c">
+        select * from comment
+        where nickname = #{nickname} order by commentTime desc
+    </select>
+    <!--添加收藏-->
+    <insert id="save" parameterType="c">
+        insert into comment (uuid,nickname,songName,commentTime,content)
+        values (#{uuid},#{nickname},#{songName},#{commentTime},#{content})
+    </insert>
+    <!--向中间表中添加-->
+    <insert id="toComment" parameterType="java.lang.String">
+        insert into song_comment (songId,commentId) values (#{songId},#{commentId})
+    </insert>
+    <!--移除中间表-->
+    <delete id="toRemoveComment" parameterType="java.lang.String">
+        delete from song_comment where commentId = #{commentId}
+    </delete>
+    <!--取消收藏-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from comment where uuid = #{uuid}
+    </delete>
+</mapper>

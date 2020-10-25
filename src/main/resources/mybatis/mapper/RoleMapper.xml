@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.light.light_music.mapper.RoleMapper">
+    <!--查询所有-->
+    <select id="findAll" resultType="r">
+        select * from role
+    </select>
+    <!--根据员工id查询-->
+    <select id="findByEmployeeId" parameterType="java.lang.String" resultType="r">
+        select ro.*
+        from role ro,employee_role em_ro
+        where ro.id = em_ro.roleId
+        and em_ro.employeeId = #{uuid}
+    </select>
+    <!--查询可以添加的身份-->
+    <select id="findEnableRole" parameterType="java.lang.String" resultType="r">
+        select * from role
+        where id not in
+        (select employee_role.roleId from employee_role
+            where employee_role.employeeId = #{employeeId})
+    </select>
+    <!--向中间表中插入-->
+    <insert id="save" parameterType="map">
+        insert into employee_role (employeeId,roleId) values (#{employeeId},#{roleId})
+    </insert>
+    <!--向中间表中删除-->
+    <delete id="delete" parameterType="map">
+        delete from employee_role where employeeId = #{employeeId} and roleId = #{roleId}
+    </delete>
+</mapper>

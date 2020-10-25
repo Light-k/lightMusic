@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--通用的头部导航栏-->
+<div class="head" th:fragment="topBar">
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+        <a>
+            <a id="login-hello" style="display: none" class="navbar-brand col-sm-3 col-md-1 mr-0 text-center"
+               th:href="@{/index}">miao~</a>
+            <ul id="login-ul" style="display: none" class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a id="login-user" class="nav-link" th:href="@{/toUserUpdate.do}"></a>
+                </li>
+            </ul>
+        </a>
+        <a>
+            <a id="login-before" class="navbar-brand col-sm-3 col-md-1 mr-0 text-center"
+               th:href="@{/toLogin.do}">请登录</a>
+        </a>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" th:href="@{/index}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" class="feather feather-home">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    主页
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" th:href="@{/toSong.do}">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-globe2" fill="currentColor"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M1.018 7.5h2.49c.037-1.07.189-2.087.437-3.008a9.124 9.124 0 0 1-1.565-.667A6.964 6.964 0 0 0 1.018 7.5zM3.05 3.049c.362.184.763.349 1.198.49.142-.384.304-.744.481-1.078a6.7 6.7 0 0 1 .597-.933A7.01 7.01 0 0 0 3.051 3.05zM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm-.5 1.077c-.67.204-1.335.82-1.887 1.855-.143.268-.276.56-.395.872.705.157 1.473.257 2.282.287V1.077zm0 4.014c-.91-.03-1.783-.145-2.591-.332a12.344 12.344 0 0 0-.4 2.741H7.5V5.091zm1 2.409V5.091c.91-.03 1.783-.145 2.591-.332.223.827.364 1.754.4 2.741H8.5zm-1 1H4.51c.035.987.176 1.914.399 2.741A13.596 13.596 0 0 1 7.5 10.91V8.5zm1 2.409V8.5h2.99a12.343 12.343 0 0 1-.399 2.741A13.596 13.596 0 0 0 8.5 10.91zm-1 1c-.81.03-1.577.13-2.282.287.12.312.252.604.395.872.552 1.035 1.218 1.65 1.887 1.855V11.91zm-2.173 2.563a6.695 6.695 0 0 1-.597-.933 8.857 8.857 0 0 1-.481-1.078 8.356 8.356 0 0 0-1.198.49 7.01 7.01 0 0 0 2.276 1.52zM2.38 12.175c.47-.258.995-.482 1.565-.667A13.36 13.36 0 0 1 3.508 8.5h-2.49a6.964 6.964 0 0 0 1.362 3.675zm8.293 2.297a7.01 7.01 0 0 0 2.275-1.521 8.353 8.353 0 0 0-1.197-.49 8.859 8.859 0 0 1-.481 1.078 6.688 6.688 0 0 1-.597.933zm.11-2.276A12.63 12.63 0 0 0 8.5 11.91v3.014c.67-.204 1.335-.82 1.887-1.855.143-.268.276-.56.395-.872zm1.272-.688c.57.185 1.095.409 1.565.667A6.964 6.964 0 0 0 14.982 8.5h-2.49a13.355 13.355 0 0 1-.437 3.008zm.437-4.008h2.49a6.963 6.963 0 0 0-1.362-3.675c-.47.258-.995.482-1.565.667.248.92.4 1.938.437 3.008zm-.74-3.96a8.854 8.854 0 0 0-.482-1.079 6.692 6.692 0 0 0-.597-.933c.857.355 1.63.875 2.275 1.521a8.368 8.368 0 0 1-1.197.49zm-.97.264c-.705.157-1.473.257-2.282.287V1.077c.67.204 1.335.82 1.887 1.855.143.268.276.56.395.872z"/>
+                    </svg>
+                    音乐榜单
+                </a>
+            </li>
+        </ul>
+        <input id="queryName" class="form-control form-control-dark" type="text" name="queryName"
+               placeholder="请根据歌曲的名称/歌手的名称/专辑的名称搜索" aria-label="Search">
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" th:href="@{/toSinger.do}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                         stroke-linejoin="round" class="feather feather-users">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    歌手专区
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" th:href="@{/song/findMyLove.do}">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star-fill" fill="currentColor"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.283.95l-3.523 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                    </svg>
+                    收藏专区
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" th:href="@{/toReply.do}">
+                    <svg class="bi bi-chat-square-dots" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M14 1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2.5a2 2 0 0 1 1.6.8L8 14.333 9.9 11.8a2 2 0 0 1 1.6-.8H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    </svg>
+                    留言板
+                </a>
+            </li>
+        </ul>
+        <a>
+            <a id="login-after" style="display: none" class="navbar-brand col-sm-3 col-md-1 mr-0 text-center"
+               th:href="@{/user/logout.do}">注销</a>
+        </a>
+    </header>
+</div>
+<!-- songs-list页面的内容区域 -->
+<div class="middle" th:fragment="songs-list-middleBar">
+    <div class="middle-left">
+        <dl>
+            <dt class="groupHeader">巅峰榜</dt>
+            <hr>
+            <div class="groupBorder">
+                <dd class="groupBody">
+                    <a th:href="@{/toSongGroup.do/} + '飙升榜'">飙升榜</a>
+                </dd>
+                <dd class="groupBody">
+                    <a th:href="@{/toSongGroup.do/} + '热歌榜'">热歌榜</a>
+                </dd>
+                <dd class="groupBody">
+                    <a th:href="@{/toSongGroup.do/} + '新歌榜'">新歌榜</a>
+                </dd>
+                <dd class="groupBody">
+                    <a th:href="@{/toSongGroup.do/} + '流行指数榜'">流行指数榜</a>
+                </dd>
+            </div>
+        </dl>
+    </div>
+    <div class="middle-right">
+        <form th:action="@{/toPlay.do}" method="post">
+            <!-- 内容头部 -->
+            <section class="main-content-header">
+                <!--工具栏-->
+                <div class="pull-left">
+                    <div class="form-group form-inline">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-default" title="播放全部">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-headphones"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          d="M8 3a5 5 0 0 0-5 5v4.5H2V8a6 6 0 1 1 12 0v4.5h-1V8a5 5 0 0 0-5-5z"/>
+                                    <path d="M11 10a1 1 0 0 1 1-1h2v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3zm-6 0a1 1 0 0 0-1-1H2v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3z"/>
+                                </svg>
+                                播放全部
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--歌曲列表-->
+            <table id="songs-list-dataList" class="table-hover" style="color: whitesmoke">
+                <thead style="display: block;font-size: 20px">
+                <tr>
+                    <th style="width: 200px;height: 50px;padding-left: 40px">
+                        <input id="songs-list-selall" type="checkbox" class="icheckbox_square-blue"> 全选
+                    </th>
+                    <th style="width: 400px;height: 50px" class="text-center">歌曲名称</th>
+                    <th style="width: 500px;height: 50px" class="text-center">演唱歌手</th>
+                    <th style="width: 300px;height: 50px" class="text-center">播放时长</th>
+                    <th style="width: 300px;height: 50px" class="text-center">歌曲的排名</th>
+                    <th style="width: 300px;height: 50px" class="text-center">专辑名称</th>
+                </tr>
+                </thead>
+                <tbody style="display: block;overflow-y: auto;height: 650px;font-size: 10px">
+                <tr th:each="song:${songs}" th:if="${not #strings.isEmpty(song.getAlbum())}">
+                    <td style="width: 200px;height: 70px;padding-left: 40px">
+                        <input name="songIds" type="checkbox" th:value="${song.uuid}">
+                    </td>
+                    <td style="width: 400px;height: 70px" class="text-left">
+                        <img th:src="@{/} + ${song.getAlbum().getImageStr()}" alt="图片加载失败"
+                             style="max-width: 50px;max-height: 50px;line-height: 50px">
+                        [[${song.getSongName()}]]
+                    </td>
+                    <td style="width: 500px;height: 70px" class="text-center" th:text="${song.getSinger()}"></td>
+                    <td style="width: 300px;height: 70px" class="text-center" th:text="${song.getPlayTime()}"></td>
+                    <td style="width: 300px;height: 70px" class="text-center" th:text="${song.getRanking()}"></td>
+                    <td style="width: 300px;height: 70px" class="text-center"
+                        th:text="${song.getAlbum().getAlbumName()}"></td>
+                </tr>
+                <tr th:each="song:${songs}" th:if="${#strings.isEmpty(song.getAlbum())}">
+                    <td style="width: 200px;height: 70px;padding-left: 40px">
+                        <input name="songIds" type="checkbox" th:value="${song.uuid}">
+                    </td>
+                    <td style="width: 400px;height: 70px" class="text-center" th:text="${song.getSongName()}"></td>
+                    <td style="width: 500px;height: 70px" class="text-center" th:text="${song.getSinger()}"></td>
+                    <td style="width: 300px;height: 70px" class="text-center" th:text="${song.getPlayTime()}"></td>
+                    <td style="width: 300px;height: 70px" class="text-center" th:text="${song.getRanking()}"></td>
+                    <td style="width: 300px;height: 70px" class="text-center"
+                        th:if="${#strings.isEmpty(song.getAlbum())}">无
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<!-- songs-group-list页面的内容区域 -->
+<div class="middle" th:fragment="songs-group-list-middleBar">
+    <div class="middle-left">
+        <dl>
+            <dt class="groupHeader">[[${groupName}]]</dt>
+            <hr>
+            <div class="groupBorder">
+                <dd class="groupBody">
+                    <a th:href="@{/toSongGroup.do/} + '飙升榜'">飙升榜</a>
+                </dd>
+                <dd class="groupBody">
+                    <a th:href="@{/toSongGroup.do/} + '热歌榜'">热歌榜</a>
+                </dd>
+                <dd class="groupBody">
+                    <a th:href="@{/toSongGroup.do/} + '新歌榜'">新歌榜</a>
+                </dd>
+                <dd class="groupBody">
+                    <a th:href="@{/toSongGroup.do/} + '流行指数榜'">流行指数榜</a>
+                </dd>
+            </div>
+        </dl>
+    </div>
+    <div class="middle-right">
+        <form th:action="@{/toPlay.do}" method="post">
+            <!-- 内容头部 -->
+            <section class="main-content-header">
+                <!--工具栏-->
+                <div class="pull-left">
+                    <div class="form-group form-inline">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-default" title="播放全部">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-headphones"
+                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                          d="M8 3a5 5 0 0 0-5 5v4.5H2V8a6 6 0 1 1 12 0v4.5h-1V8a5 5 0 0 0-5-5z"/>
+                                    <path d="M11 10a1 1 0 0 1 1-1h2v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3zm-6 0a1 1 0 0 0-1-1H2v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3z"/>
+                                </svg>
+                                播放全部
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--歌曲列表-->
+            <table id="songs-group-list-dataList" class="table-hover" style="color: whitesmoke">
+                <thead style="display: block;font-size: 20px">
+                <tr>
+                    <th style="width: 200px;height: 50px;padding-left: 40px">
+                        <input id="songs-group-list-selall" type="checkbox" class="icheckbox_square-blue"> 全选
+                    </th>
+                    <th style="width: 400px;height: 50px" class="text-center">歌曲名称</th>
+                    <th style="width: 300px;height: 50px" class="text-center">演唱歌手</th>
+                    <th style="width: 300px;height: 50px" class="text-center">播放时长</th>
+                    <th style="width: 300px;height: 50px" class="text-center">歌曲的当前排名</th>
+                    <th style="width: 500px;height: 50px" class="text-center">歌曲的排名的实际浮动值</th>
+                </tr>
+                </thead>
+                <tbody style="display: block;overflow-y: auto;height: 698px;font-size: 10px">
+                <tr th:each="song:${songs}">
+                    <td style="width: 200px;height: 70px;padding-left: 40px">
+                        <input name="songIds" type="checkbox" th:value="${song.uuid}">
+                    </td>
+                    <td style="width: 400px;height: 70px" class="text-left">
+                        <img th:src="@{/} + ${song.getAlbum().getImageStr()}" alt="图片加载失败"
+                             style="max-width: 50px;max-height: 50px;line-height: 50px">
+                        [[${song.getSongName()}]]
+                    </td>
+                    <td style="width: 300px;height: 70px" class="text-center" th:text="${song.getSinger()}"></td>
+                    <td style="width: 300px;height: 70px" class="text-center" th:text="${song.getPlayTime()}"></td>
+                    <td style="width: 300px;height: 70px" class="text-center" th:text="${song.getRanking()}"></td>
+                    <td style="width: 500px;height: 70px" class="text-center" th:if="${song.getStatus()}=='上升'">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-up" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
+                            <path fill-rule="evenodd"
+                                  d="M7.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8 3.707 5.354 6.354a.5.5 0 1 1-.708-.708l3-3z"/>
+                        </svg>
+                        [[${song.getRealFloatStr()}]]
+                    </td>
+                    <td style="width: 500px;height: 70px" class="text-center" th:if="${song.getStatus()}=='未发生变化'">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-dash" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M3.5 8a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.5-.5z"/>
+                        </svg>
+                        [[${song.getStatus()}]]
+                    </td>
+                    <td style="width: 500px;height: 70px" class="text-center" th:if="${song.getStatus()}=='下降'">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M4.646 9.646a.5.5 0 0 1 .708 0L8 12.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M8 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
+                        </svg>
+                        [[${song.getRealFloatStr()}]]
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<!--底部信息提示栏-->
+<div class="foot" th:fragment="footBar">
+    <p id="tip" style="overflow: hidden;font-size: 20px;height: 50px;line-height: 50px;margin: 10px 300px;color: red">
+        温馨提示：非会员用户仅能试听5首歌曲呦，快来成为我们尊贵的会员体验下意想不到的快乐啦 ~~~ 嘻嘻
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+</div>
+</html>

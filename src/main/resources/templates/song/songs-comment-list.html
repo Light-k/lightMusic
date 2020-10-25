@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+    <script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--正文-->
+<div class="middle">
+    <!-- 提示弹窗 -->
+    <div style="height: 70px;width: 100%; padding-top: 20px;padding-left: 30px;">
+        <div id="modal-tip"
+             style="opacity: 0.5;display: none;margin-left: auto;margin-right: auto;height: 70px;border: 1px solid #000;background-color: #fff;width: 300px;border-radius: 5px;color: red">
+            <p id="alert-tip" style="text-align: center;font-size: 10px;height: 10px;margin-top: 10px"></p>
+            <div style="margin-right: 10px;text-align: right">
+                <button style="border-radius: 5px" onclick="closeTip()" class="btn-info" title="确定">确定</button>
+            </div>
+        </div>
+    </div>
+    <!--评论歌曲-->
+    <div th:if="${not #strings.isEmpty(song)}" style="height: 300px;width: 100%;">
+        <img th:src="@{/} + ${song.getAlbum().getImageStr()}"
+             style="width: 16%;height: 300px;margin-left: 5%;float: left">
+        <div style="height: 100%;width: 26%;margin-left: 2%;color: #0d6aad;float: left">
+            <br>
+            <h4>专辑的名称：</h4>
+            <h5 th:text="${song.getAlbum().getAlbumName()}"></h5>
+            <br>
+            <h4>歌曲的名称：</h4>
+            <h5 th:text="${song.getSongName()}"></h5>
+            <br>
+            <h4>演唱的歌手：</h4>
+            <h5 th:text="${song.getSinger()}"></h5>
+        </div>
+        <div style="height: 100%;width: 46%;margin-left: 5%;float: right">
+            <input type="hidden" id="songId" th:value="${song.getUuid()}">
+            <input type="hidden" id="songName" th:value="${song.getSongName()}">
+            <div id="comment-modal" style="display: block;margin: 20px 10%;height: 260px;">
+                <h5 style="color: whitesmoke">评论：</h5>
+                <textarea id="comment" name="content"
+                          style="height: 230px;width: 85%;border-radius: 10px"></textarea>
+                <button onclick="comment()" class="btn-primary" style="margin-left: 15px" title="提交">提交</button>
+            </div>
+            <div id="reply-modal" style="visibility: hidden;margin: 20px 10%;height: 260px;">
+                <h5 style="color: whitesmoke">回复：</h5>
+                <textarea id="reply" name="content"
+                          style="height: 230px;width: 100%;border-radius: 10px"></textarea>
+                <br>
+                <button onclick="reply()" class="btn-primary" style="float: left" title="提交">提交</button>
+                <button onclick="closeReply()" class="btn-dark" style="float: right" title="关闭">关闭</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <h5 style="margin-left: 100px;color: orange">用户的评论：</h5>
+    <div style="height: 48%;margin: auto 10%">
+        <table class="table-hover">
+            <tbody style="display: block;width: 100%;height: 300px;overflow-y: auto;font-size: 20px;color: whitesmoke">
+            <tr th:each="comment:${comments}">
+                <td style="width: 1200px;">
+                    <p th:text="${comment.getNickname()} + '：'"
+                       style="font-size: 15px;line-height: 20px;height: 20px;width: 95%;"></p>
+                    <p th:text="${comment.getContent()}" style="font-size: 15px;height: 35px;width: 95%;"></p>
+                </td>
+                <td>
+                    <button th:onclick="openReply([[${comment.getUuid()}]])" class="btn-link"
+                            style="margin-left: 15px;border-radius: 7px"
+                            title="回复">回复
+                    </button>
+                </td>
+                <td>
+                    <button onclick="complain()" style="margin-left: 15px;border-radius: 7px" class="btn-danger"
+                            title="举报">举报
+                    </button>
+                </td>
+            </tr>
+            <div th:if="${not #lists.isEmpty(comment.getReplies())}" th:each="comment:${comments}">
+                <tr th:each="reply:${comment.getReplies()}">
+                    <td style="width: 1000px">
+                        <p th:text="${reply.getNickname()} + '：'"
+                           style="margin-left: 20px;font-size: 10px;line-height: 15px;height: 15px;width: 95%;"></p>
+                        <p th:text="${reply.getContent()}"
+                           style="margin-left: 20px;font-size: 10px;line-height: 15px;height: 15px;width: 95%;"></p>
+                    </td>
+                    <td>
+                        <button th:onclick="openReply([[${comment.getUuid()}]])" class="btn-link"
+                                style="margin-left: 15px;border-radius: 7px"
+                                title="回复">回复
+                        </button>
+                    </td>
+                    <td>
+                        <button onclick="complain()" style="margin-left: 15px;border-radius: 7px" class="btn-danger"
+                                title="举报">举报
+                        </button>
+                    </td>
+                </tr>
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+<script th:src="@{/js/cookie.js}"></script>
+<script>
+    let credit;         //用户的信誉度
+    /**
+     * 页面初始化
+     */
+    function getCredit() {
+        $.get({
+            url: "[[@{/user/getCredit.do}]]",
+            async: false,
+            success: function (data) {
+                credit = data;
+            }
+        });
+        return credit;
+    }
+
+    let role;           //用户的身份
+    /**
+     * 获取用户的身份
+     */
+    function getRole() {
+        $.get({
+            url: "[[@{/user/getRole.do}]]",
+            async: false,
+            success: function (data) {
+                role = data;
+            }
+        });
+        return role;
+    }
+
+    /**
+     * 评论的歌曲
+     */
+    function comment() {
+        if (getRole() !== 1) {
+            let tip = get("#modal-tip");
+            tip.style.display = "block";
+            get("#alert-tip").innerText = "对不起,您不是会员,暂无法评论";
+            get("#comment").value = "";
+        } else {
+            let Song = {};
+            Song.uuid = get("#songId").value;
+            let Comment = {};
+            Comment.songName = get("#songName").value;
+            let content = get("#comment").value;
+            if (!content) {
+                let tip = get("#modal-tip");
+                tip.style.display = "block";
+                get("#alert-tip").innerText = "评论不能为空";
+            } else {
+                if (getCredit() >= 20) {
+                    Comment.content = content;
+                    Comment.song = Song;
+                    $.ajax({
+                        type: "post",
+                        url: "[[@{/song/comment.do}]]",
+                        headers: {"Content-Type": "application/json;charset=utf-8"},
+                        dataType: "json",
+                        data: JSON.stringify(Comment),
+                        success: function (data) {
+                            if (data === "已评论") {
+                                window.location.reload();
+                            }
+                        }
+                    })
+                } else {
+                    let tip = get("#modal-tip");
+                    tip.style.display = "block";
+                    get("#alert-tip").innerText = "对不起,您的信誉度过低,已失去评论的资格";
+                    get("#comment").value = "";
+                }
+            }
+        }
+    }
+
+    /**
+     * 回复歌曲的评论
+     */
+    let uuid;               //回复的uuid值
+    function reply() {
+        if (getRole() !== 1) {
+            let tip = get("#modal-tip");
+            tip.style.display = "block";
+            get("#alert-tip").innerText = "对不起,您不是会员,暂无法回复";
+            get("#reply").value = "";
+        } else {
+            let params = {};            //要上传的数据
+            let Comment = {};     //定义comment对象
+            Comment.uuid = uuid;
+            let Reply = {};       //定义reply对象
+            let reply = get("#reply").value;
+            if (!reply) {
+                let tip = get("#modal-tip");
+                tip.style.display = "block";
+                get("#alert-tip").innerText = "回复不能为空";
+            } else {
+                if (getCredit() >= 20) {
+                    Reply.content = reply;
+                    params.comment = Comment;
+                    params.reply = Reply;
+                    $.ajax({
+                        type: "post",
+                        url: "[[@{/song/reply.do}]]",
+                        headers: {"Content-Type": "application/json;charset=utf-8"},
+                        dataType: "json",
+                        data: JSON.stringify(params),
+                        success: function (data) {
+                            if (data === "已回复") {
+                                window.location.reload();
+                            }
+                        }
+                    })
+                } else {
+                    let tip = get("#modal-tip");
+                    tip.style.display = "block";
+                    get("#alert-tip").innerText = "对不起,您的信誉度过低,已失去回复的资格";
+                    get("#reply").value = "";
+                }
+            }
+        }
+    }
+
+    /**
+     * 举报用户的评论或回复
+     */
+    function complain() {
+        if (getRole() !== 1) {
+            let tip = get("#modal-tip");
+            tip.style.display = "block";
+            get("#alert-tip").innerText = "对不起,您不是会员,暂不能举报";
+        } else {
+            $.get({
+                url: "[[@{/user/complain.do}]]",
+                success: function (data) {
+                    if (data === "已举报") {
+                        let tip = get("#modal-tip");
+                        tip.style.display = "block";
+                        get("#alert-tip").innerText = "已举报成功";
+                    }
+                }
+            })
+        }
+    }
+
+    /**
+     * 打开回复的弹窗
+     */
+    function openReply(commentId) {
+        let comment = get("#comment-modal");
+        comment.style.display = "none";
+        let reply = get("#reply-modal");
+        reply.style.visibility = "visible";
+        get("#reply").value = "";
+        uuid = commentId;
+    }
+
+    /**
+     * 关闭回复的弹窗
+     */
+    function closeReply() {
+        let reply = get("#reply-modal");
+        reply.style.visibility = "hidden";
+        uuid = "";
+        let comment = get("#comment-modal");
+        comment.style.display = "block";
+        get("#comment").value = "";
+    }
+
+    /**
+     * 关闭提示弹窗
+     */
+    function closeTip() {
+        let tip = get("#modal-tip");
+        tip.style.display = "none";
+    }
+
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+
+    /**
+     * 获取cookie
+     */
+    cookie();
+</script>
+</body>
+</html>

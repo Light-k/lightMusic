@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--正文-->
+<div class="middle">
+    <!-- 内容头部 -->
+    <section class="main-content-header">
+        <!--工具栏-->
+        <div class="pull-left">
+        </div>
+    </section>
+    <!--歌曲列表-->
+    <table class="table-hover" style="color: whitesmoke;margin-left: 30px;">
+        <thead style="display: block;font-size: 20px">
+        <tr>
+            <th style="width: 400px;height: 50px" class="text-center">歌曲名称</th>
+            <th style="width: 550px;height: 50px" class="text-center">演唱歌手</th>
+            <th style="width: 300px;height: 50px" class="text-center">播放时长</th>
+            <th style="width: 300px;height: 50px" class="text-center">专辑名称</th>
+            <th style="width: 500px;height: 50px" class="text-center"></th>
+        </tr>
+        </thead>
+        <tbody style="display: block;overflow-y: auto;height: 650px;font-size: 10px">
+        <tr th:each="love:${loves}">
+            <td style="width: 400px;height: 70px" class="text-left">
+                <img th:src="@{/} + ${love.getSongImage()}" alt="图片加载失败"
+                     style="max-width: 50px;max-height: 50px;line-height: 50px">
+                [[${love.getSongName()}]]
+            </td>
+            <td style="width: 500px;height: 70px" class="text-center" th:text="${love.getSinger()}"></td>
+            <td style="width: 300px;height: 70px" class="text-center" th:text="${love.getPlayTime()}"></td>
+            <td style="width: 300px;height: 70px" class="text-center" th:text="${love.getSongAlbum()}"></td>
+            <td style="width: 500px;height: 70px" class="text-center">
+                <button class="btn-primary" th:onclick="toPlay([[${love.getSong().getUuid()}]])" title="播放">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-headphones"
+                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M8 3a5 5 0 0 0-5 5v4.5H2V8a6 6 0 1 1 12 0v4.5h-1V8a5 5 0 0 0-5-5z"/>
+                        <path d="M11 10a1 1 0 0 1 1-1h2v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3zm-6 0a1 1 0 0 0-1-1H2v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3z"/>
+                    </svg>
+                    播放
+                </button>
+                <button class="btn-danger" th:onclick="removeLove([[${love.getUuid()}]])" title="取消关注">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-suit-heart-fill"
+                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                    </svg>
+                    取消关注
+                </button>
+                <button th:onclick="toComment([[${love.getSong().getUuid()}]])" title="评论">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat-square"
+                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M14 1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h2.5a2 2 0 0 1 1.6.8L8 14.333 9.9 11.8a2 2 0 0 1 1.6-.8H14a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                    </svg>
+                    评论
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+</body>
+<script th:src="@{/js/cookie.js}"></script>
+<script>
+    /**
+     * 取消关注
+     * @param loveId:取消关注的歌曲的uuid值
+     */
+    function removeLove(loveId) {
+        $.ajax({
+            url: "[[@{/song/removeMyLove.do/}]]" + loveId,
+            success: function (data) {
+                if (data === "已取消关注") {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
+    /**
+     * 跳转到播放页面
+     * @param songId:歌曲的名称
+     */
+    function toPlay(songId) {
+        post("[[@{/toPlay.do}]]", songId);
+    }
+
+    /**
+     * 模拟post方式提交表单
+     * @param url：表单提交的位置
+     * @param params：表单提交的参数
+     * @returns {HTMLFormElement}：form表单
+     */
+    function post(url, params) {
+        let form = document.createElement("form");
+        form.action = url;
+        form.method = "post";
+        form.style.display = "none";
+        let input = document.createElement("input");
+        input.name = "songIds";
+        input.value = params;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+        return form;
+    }
+
+    /**
+     * 跳转到评论的页面
+     */
+    function toComment(songId) {
+        window.location.href = "[[@{/toComment.do/}]]" + songId;
+    }
+
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+</html>

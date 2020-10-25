@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>light音乐后台管理</title>
+    <meta name="description" content="light音乐后台管理">
+    <meta name="keywords" content="light音乐后台管理">
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/ionicons/css/ionicons.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/iCheck/square/blue.css}">
+    <link rel="stylesheet" th:href="@{/plugins/morris/morris.css}">
+    <link rel="stylesheet" th:href="@{/plugins/jvectormap/jquery-jvectormap-1.2.2.css}">
+    <link rel="stylesheet" th:href="@{/plugins/datepicker/datepicker3.css}">
+    <link rel="stylesheet" th:href="@{/plugins/daterangepicker/daterangepicker.css}">
+    <link rel="stylesheet" th:href="@{/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/datatables/dataTables.bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/plugins/treeTable/jquery.treetable.css}">
+    <link rel="stylesheet" th:href="@{/plugins/treeTable/jquery.treetable.theme.default.css}">
+    <link rel="stylesheet" th:href="@{/plugins/select2/select2.css}">
+    <link rel="stylesheet" th:href="@{/plugins/colorpicker/bootstrap-colorpicker.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/skins/_all-skins.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/plugins/ionslider/ion.rangeSlider.css}">
+    <link rel="stylesheet" th:href="@{/plugins/ionslider/ion.rangeSlider.skinNice.css}">
+    <link rel="stylesheet" th:href="@{/plugins/bootstrap-slider/slider.css}">
+
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+
+<div class="wrapper">
+
+    <!--头部导航栏-->
+    <div th:replace="~{commons/adminCommons::topbar}"></div>
+    <!--侧边导航栏-->
+    <div th:replace="~{commons/adminCommons::sidebar}"></div>
+
+    <!-- 内容区域 -->
+    <div class="content-wrapper">
+
+        <!-- 内容头部 -->
+        <section class="content-header">
+            <h1>
+                用户管理 <small>全部用户</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a th:href="@{/adminMain}">
+                    <i class="fa fa-dashboard"></i> 首页</a></li>
+                <li>
+                    <a th:href="@{/admin/findAllUsers.do}">用户管理</a>
+                </li>
+
+                <li class="active">全部用户</li>
+            </ol>
+        </section>
+        <!-- 内容头部 /-->
+
+        <!-- 正文区域 -->
+        <section class="content"> <!-- .box-body -->
+
+            <div class="panel panel-default">
+                <div class="panel-heading">发送邮件</div>
+                <form th:action="@{/admin/sendEmail.do}" method="post" enctype="multipart/form-data">
+                    <div class="row data-type">
+                        <div class="col-md-2 title">收件人</div>
+                        <div class="col-md-4 data">
+                            <input type="text" class="form-control" name="receiver" th:value="${receiver}">
+                        </div>
+                        <div class="col-md-2 title">发件人</div>
+                        <div class="col-md-4 data">
+                            <input type="text" class="form-control" name="sendMan" placeholder="发件人">
+                        </div>
+                        <div class="col-md-2 title">主题</div>
+                        <div class="col-md-10 data">
+                            <input type="text" class="form-control" name="subject" placeholder="主题">
+                        </div>
+                        <div class="col-md-2 title">添加附件</div>
+                        <div class="col-md-10 data">
+                            <input type="file" class="form-control" name="file">
+                        </div>
+                        <div class="col-md-2 title rowHeight2x">正文</div>
+                        <div class="col-md-10 data rowHeight2x">
+                            <textarea class="form-control" rows="3" placeholder="正文" name="text"></textarea>
+                        </div>
+                        <div class="box-tools text-center">
+                            <div class="col-md-3">
+                                <button type="submit" class="col-md-12 btn bg-maroon">发送</button>
+                            </div>
+                            <div class="col-md-6" th:if="${emailStatus} == '已成功发送'">
+                                <div class="col-md-4" style="color: green">[[${emailStatus}]]</div>
+                                <div class="col-md-4" style="color: grey"></div>
+                                <div class="col-md-4" style="color: red"></div>
+                            </div>
+                            <div class="col-md-6" th:if="${emailStatus} == '编辑中'">
+                                <div class="col-md-4" style="color: green"></div>
+                                <div class="col-md-4" style="color: grey">[[${emailStatus}]]</div>
+                                <div class="col-md-4" style="color: red"></div>
+                            </div>
+                            <div class="col-md-6" th:if="${emailStatus} == '发送失败'">
+                                <div class="col-md-4" style="color: green"></div>
+                                <div class="col-md-4" style="color: grey"></div>
+                                <div class="col-md-4" style="color: red">[[${emailStatus}]]</div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="col-md-12 btn bg-default" onclick="history.back(-1);">返回</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box-body -->
+
+        </section>
+        <!-- 正文区域 /-->
+
+    </div>
+    <!-- @@close -->
+    <!-- 内容区域 /-->
+
+    <!-- 底部导航 -->
+    <div th:replace="~{commons/adminCommons::footbar}"></div>
+    <!-- 底部导航 /-->
+</div>
+</body>
+<script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<script th:src="@{/plugins/jQueryUI/jquery-ui.min.js}"></script>
+<script> $.widget.bridge('uibutton', $.ui.button);</script>
+<script th:src="@{/plugins/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/plugins/raphael/raphael-min.js}"></script>
+<script th:src="@{/plugins/morris/morris.min.js}"></script>
+<script th:src="@{/plugins/sparkline/jquery.sparkline.min.js}"></script>
+<script th:src="@{/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js}"></script>
+<script th:src="@{/plugins/jvectormap/jquery-jvectormap-world-mill-en.js}"></script>
+<script th:src="@{/plugins/knob/jquery.knob.js}"></script>
+<script th:src="@{/plugins/daterangepicker/moment.min.js}"></script>
+<script th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
+<script th:src="@{/plugins/daterangepicker/daterangepicker.zh-CN.js}"></script>
+<script th:src="@{/plugins/datepicker/bootstrap-datepicker.js}"></script>
+<script th:src="@{/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js}"></script>
+<script th:src="@{/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js}"></script>
+<script th:src="@{/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<script th:src="@{/plugins/fastclick/fastclick.js}"></script>
+<script th:src="@{/plugins/iCheck/icheck.min.js}"></script>
+<script th:src="@{/plugins/adminLTE/js/app.min.js}"></script>
+<script th:src="@{/plugins/treeTable/jquery.treetable.js}"></script>
+<script th:src="@{/plugins/select2/select2.full.min.js}"></script>
+<script th:src="@{/plugins/colorpicker/bootstrap-colorpicker.min.js}"></script>
+<script th:src="@{/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.zh-CN.js}"></script>
+<script th:src="@{/plugins/bootstrap-markdown/js/bootstrap-markdown.js}"></script>
+<script th:src="@{/plugins/bootstrap-markdown/locale/bootstrap-markdown.zh.js}"></script>
+<script th:src="@{/plugins/bootstrap-markdown/js/markdown.js}"></script>
+<script th:src="@{/plugins/bootstrap-markdown/js/to-markdown.js}"></script>
+<script th:src="@{/plugins/ckeditor/ckeditor.js}"></script>
+<script th:src="@{/plugins/input-mask/jquery.inputmask.js}"></script>
+<script th:src="@{/plugins/input-mask/jquery.inputmask.date.extensions.js}"></script>
+<script th:src="@{/plugins/input-mask/jquery.inputmask.extensions.js}"></script>
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+<script th:src="@{/plugins/chartjs/Chart.min.js}"></script>
+<script th:src="@{/plugins/flot/jquery.flot.min.js}"></script>
+<script th:src="@{/plugins/flot/jquery.flot.resize.min.js}"></script>
+<script th:src="@{/plugins/flot/jquery.flot.pie.min.js}"></script>
+<script th:src="@{/plugins/flot/jquery.flot.categories.min.js}"></script>
+<script th:src="@{/plugins/ionslider/ion.rangeSlider.min.js}"></script>
+<script th:src="@{/plugins/bootstrap-slider/bootstrap-slider.js}"></script>
+
+
+</html>

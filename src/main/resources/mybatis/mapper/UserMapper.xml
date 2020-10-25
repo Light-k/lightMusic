@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.light.light_music.mapper.UserMapper">
+    <!--查询所有-->
+    <select id="findAll" resultType="u">
+        select * from user
+    </select>
+    <!--根据uuid查询-->
+    <select id="findByUUID" resultType="u">
+        select * from user where uuid = #{uuid}
+    </select>
+    <!--根据email查询-->
+    <select id="findByEmail" resultType="u">
+        select * from user where email = #{email}
+    </select>
+    <!--根据nickName查询-->
+    <select id="findByNickname" resultType="u">
+        select * from user where nickname = #{nickname}
+    </select>
+    <!--添加用户-->
+    <insert id="save" parameterType="u">
+        insert into user
+        (uuid,nickname,password,sex,role,loginTime,onlineTime,logoutTime,
+        lastLoginTime,auth,counts,email,appeal,credit,signature)
+        values
+        (#{uuid},#{nickname},#{password},#{sex},#{role},
+        #{loginTime},#{onlineTime},#{logoutTime},#{lastLoginTime},
+        #{auth},#{counts},#{email},#{appeal},#{credit},#{signature})
+    </insert>
+    <!--更新用户-->
+    <update id="update" parameterType="u">
+        update user set
+        nickname = #{nickname},password = #{password},sex = #{sex},role = #{role},
+        loginTime = #{loginTime},onlineTime = #{onlineTime},logoutTime = #{logoutTime},
+        lastLoginTime = #{lastLoginTime},auth = #{auth},counts = #{counts},
+        email = #{email},appeal = #{appeal},credit = #{credit},signature = #{signature}
+        where uuid = #{uuid}
+    </update>
+    <!--删除用户-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from user where uuid = #{uuid}
+    </delete>
+</mapper>

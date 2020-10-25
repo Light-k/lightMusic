@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.light.light_music.mapper.LoveMapper">
+    <!--根据收藏的uuid查询-->
+    <select id="findByLoveId" parameterType="java.lang.String" resultType="s">
+        select song.* from song,song_love
+        where song.uuid = song_love.songId
+        and song_love.loveId = #{loveId}
+    </select>
+    <!--根据用户的昵称查询-->
+    <select id="findByNickname" parameterType="java.lang.String" resultType="l">
+        select * from love where nickname = #{nickname}
+    </select>
+    <!--根据已收藏的歌曲的名称查询-->
+    <select id="findBySongName" parameterType="java.lang.String" resultType="l">
+        select * from love where songName = #{songName}
+    </select>
+    <!--根据歌曲的uuid值和用户的昵称查询-->
+    <select id="findBySongIdAndNickname" parameterType="java.lang.String" resultType="l">
+        select love.* from love,song_love
+        where love.uuid = song_love.loveId
+        and song_love.songId = #{songId}
+        and love.nickname = #{nickname}
+    </select>
+    <!--添加收藏-->
+    <insert id="save" parameterType="l">
+        insert into love (uuid,nickname,songName,singer,playTime,songImage,songAlbum)
+        values (#{uuid},#{nickname},#{songName},#{singer},#{playTime},#{songImage},#{songAlbum})
+    </insert>
+    <!--向中间表中添加-->
+    <insert id="toLove" parameterType="java.lang.String">
+        insert into song_love (songId,loveId) values (#{songId},#{loveId})
+    </insert>
+    <!--移除中间表-->
+    <delete id="toRemoveLove" parameterType="java.lang.String">
+        delete from song_love where loveId = #{loveId}
+    </delete>
+    <!--取消收藏-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from love where uuid = #{uuid}
+    </delete>
+</mapper>

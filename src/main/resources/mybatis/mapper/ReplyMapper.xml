@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.light.light_music.mapper.ReplyMapper">
+    <!--根据回复的uuid查询-->
+    <select id="findByReplyId" resultType="rp">
+        select * from reply
+        where uuid = #{uuid} order by replyTime desc
+    </select>
+    <!--根据回复人的昵称查询-->
+    <select id="findByNickname" resultType="rp">
+        select * from reply
+        where nickname = #{nickname} order by replyTime desc
+    </select>
+    <!--根据评论的uuid查询出所有的回复-->
+    <select id="findByCommentId" parameterType="java.lang.String" resultType="rp">
+        select reply.* from reply,comment_reply
+        where reply.uuid = comment_reply.replyId
+        and comment_reply.commentId = #{commentId}
+        order by replyTime asc
+    </select>
+    <!--添加回复-->
+    <insert id="save" parameterType="rp">
+        insert into reply (uuid,nickname,replyTime,content)
+        values (#{uuid},#{nickname},#{replyTime},#{content})
+    </insert>
+    <!--回复评论(中间表)-->
+    <insert id="replyToComment" parameterType="java.lang.String">
+        insert into comment_reply (commentId,replyId) values (#{commentId},#{replyId})
+    </insert>
+    <!--删除中间表-->
+    <delete id="toRemoveReply" parameterType="java.lang.String">
+        delete from comment_reply where replyId = #{replyId}
+    </delete>
+    <!--删除回复-->
+    <delete id="delete" parameterType="java.lang.String">
+        delete from reply where uuid = #{uuid}
+    </delete>
+</mapper>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+    <script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+    <style type="text/css">
+        a {
+            color: #5d59a6;
+        }
+
+        a:hover {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--正文-->
+<div class="middle">
+    <!--歌手信息-->
+    <div style="height: 240px;width: 100%; padding-top: 50px;margin: 0 auto;text-align: center;color: whitesmoke">
+        <div style="margin-left: 20%;width: 12%;height: 155.75px;float: left">
+            <img style="width: 155.75px;border-radius: 50%" th:src="@{/} + ${tempSinger.getPathStr()}" alt="图片加载失败">
+        </div>
+        <div style="margin-left: 34%;width: 20%;height: 135.75px">
+            <h2 style="margin-top: 20px" th:text="${tempSinger.getSinger()}"></h2>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <!--歌手列表-->
+    <div id="hotSong-list" style="height: 500px;text-align: center;display: block">
+        <div style="margin: 0 10%">
+            <h5 style="margin-left: 30px;text-align: left;color: orange">歌曲列表</h5>
+            <table class="table-hover" style="color: whitesmoke;margin-left: 30px">
+                <thead style="display: block;font-size: 20px">
+                <tr>
+                    <th style="width: 400px;height: 50px" class="text-center">歌曲名称</th>
+                    <th style="width: 400px;height: 50px" class="text-center">播放时长</th>
+                    <th style="width: 400px;height: 50px" class="text-center">专辑名称</th>
+                    <th style="width: 400px;height: 50px" class="text-center"></th>
+                </tr>
+                </thead>
+                <tbody style="display: block;overflow-y: auto;height: 350px;font-size: 10px">
+                <tr th:each="song:${songs}" th:if="${not #lists.isEmpty(song)}">
+                    <td style="width: 400px;height: 70px" class="text-left">
+                        <img th:src="@{/} + ${song.getAlbum().getImageStr()}" alt="图片加载失败"
+                             style="max-width: 50px;max-height: 50px;line-height: 50px">
+                        [[${song.getSongName()}]]
+                    </td>
+                    <td style="width: 400px;height: 70px" class="text-center" th:text="${song.getPlayTime()}"></td>
+                    <td style="width: 400px;height: 70px" class="text-center"
+                        th:text="${song.getAlbum().getAlbumName()}"></td>
+                    <td style="width: 400px;height: 70px" class="text-center">
+                        <button class="btn-primary" th:onclick="toPlay([[${song.getUuid()}]])" title="播放">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-headphones"
+                                 fill="currentColor"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M8 3a5 5 0 0 0-5 5v4.5H2V8a6 6 0 1 1 12 0v4.5h-1V8a5 5 0 0 0-5-5z"/>
+                                <path d="M11 10a1 1 0 0 1 1-1h2v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3zm-6 0a1 1 0 0 0-1-1H2v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3z"/>
+                            </svg>
+                            播放
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+</body>
+<script th:src="@{/js/cookie.js}"></script>
+<script type="text/javascript">
+    /**
+     * 跳转到播放页面
+     * @param songId:歌曲的名称
+     */
+    function toPlay(songId) {
+        post("[[@{/toPlay.do}]]", songId);
+    }
+
+    /**
+     * 模拟post方式提交表单
+     * @param url：表单提交的位置
+     * @param params：表单提交的参数
+     * @returns {HTMLFormElement}：form表单
+     */
+    function post(url, params) {
+        let form = document.createElement("form");
+        form.action = url;
+        form.method = "post";
+        form.style.display = "none";
+        let input = document.createElement("input");
+        input.name = "songIds";
+        input.value = params;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+        return form;
+    }
+
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+</html>

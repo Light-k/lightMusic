@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.light.light_music.mapper.AlbumMapper">
+    <!--查询所有的专辑-->
+    <select id="findAll" resultType="a">
+        select * from album
+    </select>
+    <!--根据专辑的id值查询对应的专辑-->
+    <select id="findById" parameterType="java.lang.Integer" resultType="a">
+        select * from album where id = #{id}
+    </select>
+    <!--根据专辑的名称查询-->
+    <select id="findByAlbumName" parameterType="java.lang.String" resultType="a">
+        select * from album where albumName like concat('%',#{albumName},'%')
+    </select>
+    <!--查询未被收录的歌曲-->
+    <select id="findOtherSongs" resultType="s">
+        select * from song where uuid not in (select songId from song_album)
+    </select>
+    <!--根据专辑的albumId查询该专辑已收录的歌曲-->
+    <select id="querySongFromAlbum" parameterType="java.lang.Integer" resultType="s">
+        select * from song where uuid in
+        (select songId from song_album where song_album.albumId = #{albumId})
+    </select>
+    <!--根据专辑的albumId分组查询该专辑的歌曲总数-->
+    <select id="querySongCounts" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(albumId) from song_album where albumId = #{albumId} group by albumId
+    </select>
+    <!--添加新专辑-->
+    <insert id="save" parameterType="a">
+        insert into album (image,albumName,counts,singer)
+        values (#{image},#{albumName},#{counts},#{singer})
+    </insert>
+    <!--收录新单曲-->
+    <insert id="saveNewSongs" parameterType="map">
+        insert into song_album (songId,albumId) values (#{songId},#{albumId})
+    </insert>
+    <!--更新专辑已收录的歌曲总数-->
+    <update id="update" parameterType="a">
+        update album set image = #{image},albumName = #{albumName},counts = #{counts},singer = #{singer}
+        where id = #{id}
+    </update>
+    <!--移除单曲-->
+    <delete id="removeSong" parameterType="java.lang.String">
+        delete from song_album where songId = #{songId}
+    </delete>
+
+</mapper>

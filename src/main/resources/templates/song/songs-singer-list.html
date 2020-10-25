@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+    <script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+    <style type="text/css">
+        a {
+            color: whitesmoke;
+        }
+
+        .bgC {
+            background-color: green;
+            color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--正文-->
+<div class="middle">
+    <!-- 搜索框 -->
+    <div style="height: 200px;width: 100%; padding-top: 50px;margin: 0 auto;text-align: center;color: whitesmoke">
+        <div style="width: 100%;height: 20px">
+            <span class="bgC" style="float: left;display: block;height: 100%;width: 40px;margin-left: 20%;">
+                <a th:href="@{/song/findAllSingers.do}" style="text-align: center;margin: 0 auto">热门</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin-left: 50px;margin-right: 5px">
+                <a href="#">A</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+                <a href="#">B</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">C</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">D</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">E</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">F</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">G</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">H</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">I</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">J</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">K</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">L</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">M</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">N</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">O</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">P</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">Q</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">R</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">S</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">T</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">U</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">V</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">W</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">X</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">Y</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 20px;margin: auto 5px">
+               <a href="#">Z</a>
+            </span>
+        </div>
+        <div style="width: 100%;height: 20px;margin: 20px auto">
+           <span class="bgC" style="float: left;display: block;height: 100%;width: 40px;margin-left: 20%;">
+                <a href="#" style="text-align: center;margin: 0 auto">全部</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin-left: 50px;margin-right: 5px">
+                <a href="#">内地</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">港台</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">欧美</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">日本</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">韩国</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">其他</a>
+            </span>
+        </div>
+        <div style="width: 100%;height: 20px;margin: 20px auto">
+           <span class="bgC" style="float: left;display: block;height: 100%;width: 40px;margin-left: 20%;">
+                <a href="#" style="text-align: center;margin: 0 auto">全部</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 25px;margin-left: 50px;margin-right: 5px">
+                <a href="#">男</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 25px;margin: auto 5px">
+                <a href="#">女</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">组合</a>
+            </span>
+        </div>
+        <div style="width: 100%;height: 20px;margin: 20px auto">
+           <span class="bgC" style="float: left;display: block;height: 100%;width: 40px;margin-left: 20%;">
+                <a href="#" style="text-align: center;margin: 0 auto">全部</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin-left: 50px;margin-right: 5px">
+                <a href="#">流行</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">嘻哈</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">摇滚</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">电子</a>
+            </span>
+            <span style="float: left;display: block;height: 100%;width: 40px;margin: auto 5px">
+                <a href="#">民谣</a>
+            </span>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <!--歌手列表-->
+    <div id="singer-list" style="height: 500px;">
+        <ul style="display: block;overflow-y: auto;height: 500px;list-style-type: none">
+            <li style="float: left" th:each="singer:${singers}">
+                <div style="width: 140px;text-align: center;color: whitesmoke">
+                    <div>
+                        <a th:href="@{/toSingerDetail.do/} + ${singer.getSinger()}">
+                            <img style="border-radius: 50%;max-width: 120px;max-height: 120px"
+                                 th:src="@{/} + ${singer.getPathStr()}" alt="图片加载失败">
+                        </a>
+                    </div>
+                    <br>
+                    <h5 th:text="${singer.getSinger()}"></h5>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div id="list" style="height: 500px;display: none">
+        <ul id="singer-ul" style="display: block;overflow-y: auto;height: 500px;;list-style-type: none"></ul>
+    </div>
+</div>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+</body>
+<script>
+    let Singer = {};
+    let a = get("a");
+    /**
+     * 页面初始化
+     */
+    window.onload = function () {
+        let cookie_value = cookie("loginUser");
+        if (cookie_value !== ""){
+            get("#login-hello").style.display = "block";
+            get("#login-ul").style.display = "block";
+            get("#login-user").innerHTML = "【当前用户：" + cookie_value + "】";
+            get("#login-before").style.display = "none";
+            get("#login-after").style.display = "block";
+        }
+        for (let i = 7; i < 39; i++) {
+            a[i].addEventListener("mouseover", function () {
+                let bgC = a[i].parentElement.className;
+                if (!bgC) {
+                    a[i].style.color = "green";
+                }
+            })
+            a[i].addEventListener("mouseout", function () {
+                a[i].style.color = "whitesmoke";
+            })
+            a[i].addEventListener("click", function () {
+                if (i !== 7) {
+                    Singer.firstLatter = a[i].innerHTML;
+                    querySinger();
+                }
+                get(".bgC")[0].className = "";
+                let bgC = a[i].parentElement.className;
+                if (!bgC) {
+                    a[i].parentElement.className = "bgC";
+                }
+            })
+        }
+        for (let i = 39; i < 46; i++) {
+            a[i].addEventListener("mouseover", function () {
+                let bgC = a[i].parentElement.className;
+                if (!bgC) {
+                    a[i].style.color = "green";
+                }
+            })
+            a[i].addEventListener("mouseout", function () {
+                a[i].style.color = "whitesmoke";
+            })
+            a[i].addEventListener("click", function () {
+                if (i !== 39) {
+                    Singer.region = a[i].innerHTML;
+                    querySinger();
+                }
+                get(".bgC")[1].className = "";
+                let bgC = a[i].parentElement.className;
+                if (!bgC) {
+                    a[i].parentElement.className = "bgC";
+                }
+            })
+        }
+        for (let i = 46; i < 50; i++) {
+            a[i].addEventListener("mouseover", function () {
+                let bgC = a[i].parentElement.className;
+                if (!bgC) {
+                    a[i].style.color = "green";
+                }
+            })
+            a[i].addEventListener("mouseout", function () {
+                a[i].style.color = "whitesmoke";
+            })
+            a[i].addEventListener("click", function () {
+                if (i !== 46) {
+                    Singer.sex = a[i].innerHTML;
+                    querySinger();
+                }
+                get(".bgC")[2].className = "";
+                let bgC = a[i].parentElement.className;
+                if (!bgC) {
+                    a[i].parentElement.className = "bgC";
+                }
+            })
+        }
+        for (let i = 50; i < 56; i++) {
+            a[i].addEventListener("mouseover", function () {
+                let bgC = a[i].parentElement.className;
+                if (!bgC) {
+                    a[i].style.color = "green";
+                }
+            })
+            a[i].addEventListener("mouseout", function () {
+                a[i].style.color = "whitesmoke";
+            })
+            a[i].addEventListener("click", function () {
+                if (i !== 50) {
+                    Singer.singerType = a[i].innerHTML;
+                    querySinger();
+                }
+                get(".bgC")[3].className = "";
+                let bgC = a[i].parentElement.className;
+                if (!bgC) {
+                    a[i].parentElement.className = "bgC";
+                }
+            })
+        }
+    }
+
+    /**
+     * 根据歌手的名称的首字母/性别/所在的地区/演唱的曲风查询歌手
+     */
+    function querySinger() {
+        get("#singer-list").style.display = "none";
+        get("#list").style.display = "block";
+        $.ajax({
+            url: "[[@{/song/querySinger.do}]]",
+            method: "post",
+            headers: {"Content-Type": "application/json;charset=utf-8"},
+            dataType: "json",
+            data: JSON.stringify(Singer),
+            success: function (data) {
+                get("#singer-ul").innerHTML = "";
+                if (data.length > 0) {
+                    for (let i = 0; i < data.length; i++) {
+                        $("#singer-ul").append(
+                            '<li style="float: left">' + '<div style="width: 140px;text-align: center;color: whitesmoke">' +
+                            '<div>' + '<a href="/music/toSingerDetail.do/' + data[i].singer + '">' +
+                            '<img style="border-radius: 50%;max-width: 120px;max-height: 120px" src="../' + data[i].pathStr + '" alt="图片加载失败">' +
+                            '</a>' + '</div>' + '<br>' + '<h5>' + data[i].singer + '</h5>' + '</div>' + '</li>'
+                        );
+                    }
+                } else {
+                    $("#singer-ul").append(
+                        '<li style="float: left">' + '<div style="width: 140px;text-align: center;color: whitesmoke">' +
+                        '<div>' + '<a href="#">' +
+                        '<img style="border-radius: 50%;max-width: 120px;max-height: 120px" src="" alt="图片加载失败">' +
+                        '</a>' + '</div>' + '<br>' + '<h5>' + '暂无信息' + '</h5>' + '</div>' + '</li>'
+                    );
+                }
+            }
+        })
+    }
+
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+
+</html>

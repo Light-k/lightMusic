@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+    <script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--内容-->
+<div class="middle">
+    <div style="float: left;width: 100%;height: 90%">
+        <div style="margin: 100px auto;text-align: center;width: 400px;height: 550px;border: 1px solid #000;box-shadow: 0 0 10px #ead5ee;border-radius: 10px;">
+            <img style="margin-top: 50px" class="mb-4" th:src="@{/img/light.jpg}" alt="图片加载失败" width="72" height="72">
+            <h1 style="color:whitesmoke;" class="h3 mb-3 font-weight-normal" th:text="#{appeal.tip}">Please sign in</h1>
+            <p></p>
+            <input type="text" id="email" style="width: 340px;margin: 0 auto;border-radius: 10px" class="form-control"
+                   th:placeholder="#{appeal.email}">
+            <br>
+            <button style="width: 340px;margin: 0 auto;border-radius: 20px" class="btn btn-lg btn-primary btn-block"
+                    onclick="appeal()">
+                [[#{appeal.btn}]]
+            </button>
+            <br>
+            <a style="width: 340px;margin: 0 auto;border-radius: 20px" th:href="@{/toLogin.do}"
+               class="btn btn-lg btn-outline-light btn-block">[[#{appeal.back}]]</a>
+            <p class="mt-5 mb-3 text-muted">© light音乐</p>
+            <a class="btn btn-sm" th:href="@{/toAppeal.do(l='zh_CN')}">中文</a>
+            <a class="btn btn-sm" th:href="@{/toAppeal.do(l='en_US')}">English</a>
+        </div>
+    </div>
+</div>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+</body>
+<script th:src="@{/js/cookie.js}"></script>
+<script>
+    /**
+     * 申诉功能
+     */
+    let count = 0;          //初始化用户申诉的次数
+    function appeal() {
+        let email = get("#email").value;
+        count = getCount(email);
+        if (!email) {
+            get("p")[0].innerHTML = "账号不能为空";
+            get("p")[0].style.color = "red";
+        } else {
+            if (count === 404) {
+                get("p")[0].innerHTML = "该账号不存在";
+                get("p")[0].style.color = "red";
+            } else {
+                $.ajax({
+                    url: "[[@{/user/appeal.do}]]",
+                    method: "post",
+                    data: {
+                        "email": email,
+                        "count": count,
+                    },
+                    success: function (data) {
+                        if (data !== null) {
+                            count = data;
+                            if (data === 1) {
+                                get("p")[0].innerHTML = "已成功申诉,请关注您的邮箱等待申诉结果";
+                                get("p")[0].style.color = "green";
+                            } else {
+                                if (data === 0) {
+                                    get("p")[0].innerHTML = "已申诉过4次,请耐心等待,不要频繁申诉";
+                                    get("p")[0].style.color = "red";
+                                } else {
+                                    get("p")[0].innerHTML = "已申诉过" + count + "次,请耐心等待,不要频繁申诉";
+                                    get("p")[0].style.color = "red";
+                                }
+                            }
+                        } else {
+                            get("p")[0].innerHTML = "该账号不存在";
+                            get("p")[0].style.color = "red";
+                        }
+                    }
+                });
+            }
+            get("#email").value = "";
+        }
+    }
+
+    /**
+     * 获取用户申诉的次数
+     */
+    function getCount(email) {
+        $.ajax({
+            url: "[[@{/user/getCount.do}]]",
+            method: "post",
+            data: {
+                "email": email,
+            },
+            async: false,
+            success: function (data) {
+                count = data;
+            }
+        });
+        return count;
+    }
+
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+</html>

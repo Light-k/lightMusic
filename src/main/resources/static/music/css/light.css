@@ -1,0 +1,377 @@
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: #29323c;
+    font-family: "微软雅黑";
+}
+
+/**
+头部导航栏
+ */
+.head {
+    width: 100%;
+    height: 5%;
+}
+
+/**
+内容区
+ */
+.middle {
+    width: 100%;
+    height: 88%;
+}
+
+/**
+侧边栏外框
+ */
+.middle-left {
+    width: 15%;
+    height: 100%;
+    text-align: center;
+    float: left;
+    color: #b1b1b1;
+
+}
+
+/**
+侧边栏头部
+ */
+.groupHeader {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    font-size: 25px;
+}
+
+/**
+侧边栏内容边框
+ */
+.groupBorder {
+    width: 100%;
+    height: 100%;
+    line-height: 400px;
+    box-shadow: 0 0 3px #6f6f6f;
+    background: linear-gradient(180deg, #29323c, #485563);
+}
+
+/**
+侧边栏内容
+ */
+.groupBody {
+    padding-top: 20px;
+    width: 100%;
+    height: 80px;
+    line-height: 30px;
+    font-size: 15px;
+}
+
+/**
+歌曲列表
+ */
+.middle-right {
+    width: 85%;
+    height: 100%;
+    float: right;
+}
+
+/**
+正文头部
+ */
+.main-content-header {
+    width: 100%;
+    height: 70px;
+    line-height: 70px;
+    padding-top: 20px;
+    padding-left: 30px;
+}
+
+/**
+播放页面的歌曲列表
+ */
+.middle-song {
+    width: 70%;
+    height: 100%;
+    float: left;
+}
+
+/**
+歌曲的详情
+ */
+.middle-detail {
+    width: 30%;
+    height: 100%;
+    float: left;
+}
+
+/**
+正文头部的链接颜色
+ */
+.main-content-header a {
+    color: #b1b1b1;
+}
+
+.main-content-header a:hover {
+    color: #aa1111;
+}
+
+/**
+底部工具栏
+ */
+.foot {
+    width: 100%;
+    height: 7%;
+    background-color: #1f1f1f;
+    float: left;
+    color: whitesmoke;
+    overflow: hidden;
+}
+
+/**
+播放组件外框
+ */
+.foot-left {
+    width: 25%;
+    height: 100%;
+    float: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 6%;
+}
+
+/**
+上一曲
+ */
+.before {
+    width: 30%;
+    height: 100%;
+    float: left;
+    font-size: 35px;
+    text-align: center;
+    float: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/**
+播放
+ */
+.start {
+    width: 30%;
+    height: 100%;
+    line-height: 100%;
+    font-size: 50px;
+    text-align: center;
+    float: left;
+}
+
+/**
+下一曲
+ */
+.after {
+    width: 30%;
+    height: 100%;
+    font-size: 35px;
+    text-align: center;
+    float: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+/**
+歌曲信息
+ */
+.foot-middle {
+    width: 30%;
+    height: 100%;
+    float: left;
+    padding-left: 4%;
+}
+
+/**
+歌曲图片
+ */
+.info-image {
+    width: 12%;
+    height: 60px;
+    float: left;
+    margin: 1% 1%;
+}
+
+/**
+歌曲描述
+ */
+.info-description {
+    width: 80%;
+    height: 100%;
+    line-height: 100%;
+    text-align: left;
+    float: left;
+    margin-left: 6%;
+}
+
+/**
+歌曲名称
+ */
+.info-songName {
+    width: 100%;
+    height: 30px;
+    font-size: 20px;
+    line-height: 25px;
+    padding: 5px 0px;
+}
+
+/**
+歌手
+ */
+.info-singer {
+    width: 100%;
+    height: 40px;
+    font-size: 10px;
+    line-height: 15px;
+    padding: 5px 0px;
+}
+
+/**
+进度条和声音控制器外框
+ */
+.foot-right {
+    width: 35%;
+    height: 100%;
+    float: left;
+}
+
+/**
+进度条
+ */
+.main-content-footer-progress {
+    width: 40%;
+    height: 100%;
+    float: left;
+}
+
+/**
+歌曲进度条的小圆点
+ */
+.dot {
+    width: 20px;
+    height: 20px;
+    background-image: url("../img/progress.jpg");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    border-radius: 100%;
+    float: left;
+    position: absolute;
+}
+
+/**
+声音控制器
+ */
+.sound {
+    width: 50%;
+    height: 100%;
+    float: right;
+    font-size: 20px;
+}
+
+/**
+声音进度条的小圆点
+ */
+.soundDot {
+    width: 20px;
+    height: 20px;
+    background-image: url("../img/progress.jpg");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    border-radius: 100%;
+    float: left;
+    position: absolute;
+}
+
+
+.photo {
+    width: 80%;
+    height: 100%;
+    margin-top: 50px;
+    margin-left: 11%;
+    font-family: "微软雅黑";
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ead5ee;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    opacity: 0.7;
+    float: left;
+}
+
+.title {
+    color: orangered;
+    margin-top: 50px;
+    width: 100%;
+    height: 80px;
+    font-size: 35px;
+    text-align: center;
+    line-height: 35px;
+}
+
+.singer {
+    color: orangered;
+    width: 100%;
+    height: 60px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 30px;
+}
+
+.lrc {
+    color: #6c757d;
+    margin-top: 60px;
+    width: 100%;
+    height: 380px;
+    text-align: center;
+    line-height: 380px;
+    overflow: hidden;
+}
+
+.lrc p {
+    height: 20px;
+    font-size: 10px;
+    line-height: 15px;
+}
+
+.lrcContent {
+    position: relative;
+}
+
+
+::-webkit-scrollbar { /* 血槽宽度 */
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb { /* 拖动条 */
+    background-color: rgba(0, 0, 0, .3);
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-track { /* 背景槽 */
+    background-color: #ddd;
+    border-radius: 6px;
+}
+
+/**
+渐变色 斜体字
+ */
+.colorful {
+    font-size: 50px;
+    font-style: italic;
+    background-image: -webkit-gradient(linear, left top, right top,
+    color-stop(0.4, #f22),
+    color-stop(0.43, #f2f),
+    color-stop(0.46, #22f),
+    color-stop(0.49, #2ff),
+    color-stop(0.52, #2f2),
+    color-stop(0.55, #ff2),
+    color-stop(0.58, #f22));
+    color: transparent;
+    -webkit-background-clip: text;
+}

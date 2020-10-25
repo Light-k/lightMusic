@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--内容-->
+<div class="middle">
+    <div style="float: left;width: 100%;height: 100%">
+        <div style="margin: 50px auto;text-align: center;width: 480px;height: 85%;border: 1px solid #000;box-shadow: 0 0 10px #ead5ee;border-radius: 10px;">
+            <form th:action="@{/user/updateUser.do}" method="post">
+                <input type="hidden" name="uuid" th:value="${user.getUuid()}">
+                <img style="margin-top: 40px" class="mb-4" th:src="@{/img/light.jpg}" alt="图片加载失败" width="72"
+                     height="72">
+                <h1 style="color:whitesmoke;" class="h3 mb-3 font-weight-normal">[[#{update.tip}]]</h1>
+                <p th:if="${! #strings.isEmpty(msg)}" th:text="${msg}" style="color: red"/>
+                <p style="margin-left: 20px;float: left;height: 38px;line-height: 38px;color:whitesmoke;">
+                    [[#{update.email}]]</p>
+                <input style="width: 340px;margin-left: 100px;border-radius: 10px" type="email" name="email"
+                       class="form-control" th:value="${user.getEmail()}" readonly>
+                <br>
+                <p style="margin-left: 20px;float: left;height: 38px;line-height: 38px;color:whitesmoke;">
+                    [[#{update.nickname}]]</p>
+                <input style="width: 340px;margin-left: 100px;border-radius: 10px" type="text" name="nickname"
+                       class="form-control" th:value="${user.getNickname()}" required="">
+                <br>
+                <p style="margin-left: 20px;float: left;height: 38px;line-height: 38px;color:whitesmoke;">
+                    [[#{update.password}]]</p>
+                <input style="width: 340px;margin-left: 100px;border-radius: 10px" type="password" name="password"
+                       class="form-control" th:value="${user.getPassword()}" required="">
+                <br>
+                <p style="margin-left: 20px;float: left;height: 38px;line-height: 38px;color:whitesmoke;">
+                    [[#{update.gender}]]</p>
+                <select style="width: 340px;margin-left: 100px;border-radius: 10px" class="form-control select2"
+                        name="sex">
+                    <option value="0" th:selected="${user.getSex()}==0">[[#{update.girl}]]</option>
+                    <option value="1" th:selected="${user.getSex()}==1">[[#{update.boy}]]</option>
+                </select>
+                <br>
+                <button style="width: 400px;margin: 0 auto;border-radius: 20px" class="btn btn-lg btn-primary btn-block"
+                        type="submit">[[#{update.btn}]]
+                </button>
+                <br>
+                <a style="width: 400px;margin: 0 auto;border-radius: 20px" th:href="@{/index}"
+                   class="btn btn-lg btn-outline-light btn-block">[[#{update.back}]]</a>
+                <p class="mt-5 mb-3 text-muted">© light音乐</p>
+                <a class="btn btn-sm" th:href="@{/toUserUpdate.do(l='zh_CN')}">中文</a>
+                <a class="btn btn-sm" th:href="@{/toUserUpdate.do(l='en_US')}">English</a>
+            </form>
+        </div>
+    </div>
+</div>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+</body>
+<script th:src="@{/js/cookie.js}"></script>
+<script>
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+    <script th:src="@{/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--正文-->
+<div class="middle">
+    <div style="height: 70px;width: 100%;padding-top: 10px">
+        <div style="height: 50px;width: 100%;margin: 0 auto;text-align: center;line-height: 50px">
+            <button onclick="aboutMe()" style="border-radius: 10px" class="btn-link" title="查看个人信息">查看个人信息</button>
+        </div>
+    </div>
+    <hr>
+    <!--验证弹窗-->
+    <div id="auth"
+         style="display: none;text-align: center;margin: 100px auto;border: 1px solid #000;background-color: #fff;width: 400px;height: 100px;border-radius: 10px">
+        <p id="check-tip" style="color: red"></p>
+        <input type="password" id="password">
+        <div style="margin: 0 10px;">
+            <div style="float: left;text-align: left">
+                <button id="submit" style="border-radius: 5px" onclick="checkPwd()" class="btn-info" title="确定">确定
+                </button>
+            </div>
+            <div style="float: right;text-align: right">
+                <button style="border-radius: 5px" onclick="goBack()" class="btn-dark" title="返回">返回</button>
+            </div>
+        </div>
+    </div>
+    <div id="content" style="display: none">
+        <!--个人信息-->
+        <div style="float: left;text-align: center;color: orange;box-shadow: 0 0 10px #ead5ee;border-radius: 10px;border: 1px solid #00ff00;margin-top: 50px;margin-left: 100px;display: block;width: 25%;height: 600px;">
+            <p style="text-align: left;float: left;padding: 20px 30px;width: 50%;height: 30px;line-height: 30px">昵称：</p>
+            <input type="text" style="border-radius: 10px;margin: 20px 30px;height: 30px;width: 30%;"
+                   th:value="${user.getNickname()}" readonly>
+            <p style="text-align: left;float: left;padding: 20px 30px;width: 50%;height: 30px;line-height: 30px">身份：</p>
+            <input type="text" style="border-radius: 10px;margin: 20px 30px;height: 30px;width: 30%;"
+                   th:value="${user.getRole()} == 0 ? '平民听众' : '尊贵会员'" readonly>
+            <p style="text-align: left;float: left;padding: 20px 30px;width: 50%;height: 30px;line-height: 30px">
+                信誉度：</p>
+            <input type="text" style="border-radius: 10px;margin: 20px 30px;height: 30px;width: 30%;"
+                   th:value="${user.getCredit()}" readonly>
+            <p style="text-align: left;float: left;padding: 20px 30px;width: 50%;height: 30px;line-height: 30px">
+                已试听的数量：</p>
+            <input type="text" style="border-radius: 10px;margin: 20px 30px;height: 30px;width: 30%;"
+                   th:value="${user.getCounts()}" readonly>
+            <p style="text-align: left;float: left;padding: 20px 30px;width: 50%;height: 30px;line-height: 30px">
+                个性签名：</p>
+            <textarea th:if="${#strings.isEmpty(user.getSignature())}" th:placeholder="暂无信息"
+                      style="width: 80%;height: 150px"></textarea>
+            <textarea th:if="${not #strings.isEmpty(user.getSignature())}" th:text="${user.getSignature()}"
+                      style="width: 80%;height: 150px"></textarea>
+            <button onclick="updateSignature()" style="border-radius: 5px" class="btn-info" title="更新">更新</button>
+            <div id="signature-tip" style="display: none;color: red;margin: 10px auto;font-size: 15px">个性签名不能为空</div>
+        </div>
+        <!--与我相关的评论-->
+        <div style="margin-left: 5%;display: block;width: 28%;height: 700px;float: left">
+            <h5 style="text-align: center;color: #00a157">与我相关的评论</h5>
+            <hr>
+            <table class="table-hover">
+                <tbody style="display: block;width: 100%;height: 700px;overflow-y: auto;color: whitesmoke">
+                <tr th:each="comment:${comments}">
+                    <td style="width: 500px;">
+                        <p th:text="${comment.getNickname()} + '：'"
+                           style="text-align: left;font-size: 15px;line-height: 20px;height: 20px;width: 95%;"></p>
+                        <p th:text="${comment.getContent()}"
+                           style="text-align: left;font-size: 15px;height: 35px;width: 95%;"></p>
+                    </td>
+                    <td>
+                        <button th:onclick="deleteComment([[${comment.getUuid()}]])"
+                                style="margin-left: 15px;border-radius: 7px" class="btn-danger" title="删除">删除
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--与我相关的回复-->
+        <div style="margin-left: 5%;text-align: center;display: block;width: 28%;height: 700px;float: left">
+            <h5 style="color: #5d59a6">与我相关的回复</h5>
+            <hr>
+            <table class="table-hover">
+                <tbody style="display: block;width: 100%;height: 700px;overflow-y: auto;color: whitesmoke">
+                <tr th:each="reply:${replies}">
+                    <td style="width: 500px;">
+                        <p th:text="${reply.getNickname()} + '：'"
+                           style="text-align: left;font-size: 15px;line-height: 20px;height: 20px;width: 95%;"></p>
+                        <p th:text="${reply.getContent()}"
+                           style="text-align: left;font-size: 15px;height: 35px;width: 95%;"></p>
+                    </td>
+                    <td>
+                        <button th:onclick="deleteReply([[${reply.getUuid()}]])"
+                                style="margin-left: 15px;border-radius: 7px" class="btn-danger" title="删除">删除
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--底部信息提示栏-->
+<div class="foot">
+    <p id="tip" style="overflow: hidden;font-size: 20px;height: 50px;line-height: 50px;margin: 10px 300px;color: red">
+        为了更好的用户体验，本网站推出新公告：新用户累计在线超过2个小时自动升级成尊贵会员；若升级会员后累计2天未登录，尊贵会员自动注销！
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+</div>
+</body>
+<script th:src="@{/js/cookie.js}"></script>
+<script>
+    let role;
+
+    /**
+     * 获取用户的身份
+     */
+    function getRole() {
+        $.get({
+            url: "[[@{/user/getRole.do}]]",
+            async: false,
+            success: function (data) {
+                role = data;
+            }
+        });
+        return role;
+    }
+
+    let result = false;         //判断是否验证成功
+    let mark = 1;               //移除子节点次数
+    /**
+     * 模态弹窗
+     */
+    function aboutMe() {
+        if (getRole() !== 1) {
+            get("#check-tip").innerText = "对不起,您不是会员,暂无法查看";
+            let auth = get("#auth");
+            auth.style.display = "block";
+            if (mark === 1) {
+                get("#password").parentNode.removeChild(get("#password"));
+                get("#submit").parentNode.removeChild(get("#submit"));
+                mark++;
+            }
+        } else {
+            if (result) {
+                get("#content").style.display = "block";
+            } else {
+                $.get({
+                    url: "[[@{/user/getAuth.do}]]",
+                    success: function (data) {
+                        if (data === 0) {
+                            get("#check-tip").innerText = "对不起,您的账号已锁死,请于一小时后再尝试";
+                            get("#password").readOnly = true;
+                        } else {
+                            if (data === 3) {
+                                get("#check-tip").innerText = "为了确保您是本人登录,请输入您的登录密码：";
+                            } else {
+                                get("#check-tip").innerText = "密码输入错误,您还有" + data + "次机会";
+                            }
+                        }
+                        let auth = get("#auth");
+                        auth.style.display = "block";
+                    }
+                })
+            }
+        }
+    }
+
+    let count = 3;      //初始化可以验证的次数
+    /**
+     * 核对密码
+     */
+    function checkPwd() {
+        let pwd = get("#password");
+        let userPwd = pwd.value;
+        let res;            //验证结果
+        if (!userPwd) {
+            get("#check-tip").innerText = "密码不能为空";
+        } else {
+            $.get({
+                url: "[[@{/user/toCheck.do/}]]" + userPwd + "/" + count,
+                async: false,
+                success: function (data) {
+                    res = data;
+                }
+            })
+            if (res !== 8) {
+                get("#check-tip").innerText = "密码输入错误,您还有" + res + "次机会";
+                count--;
+            } else {
+                let auth = get("#auth");
+                auth.style.display = "none";
+                get("#content").style.display = "block";
+                result = true;
+            }
+            if (res < 1) {
+                get("#check-tip").innerText = "对不起,您的账号已锁死,请于一小时后再尝试";
+                pwd.readOnly = true;
+                get("#submit").onclick = null;
+                setInterval(submit, 3600000);
+            }
+            pwd.value = "";
+        }
+    }
+
+    /**
+     * 恢复提交功能
+     */
+    function submit() {
+        get("#submit").onclick = checkPwd;
+    }
+
+    /**
+     * 返回
+     */
+    function goBack() {
+        let auth = get("#auth");
+        auth.style.display = "none";
+    }
+
+    /**
+     * 删除用户的评论
+     * @param uuid：评论的uuid值
+     */
+    function deleteComment(uuid) {
+        $.get({
+            url: "[[@{/song/deleteComment.do/}]]" + uuid,
+            success: function (data) {
+                if (data === "已删除") {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
+    /**
+     * 删除用户的回复
+     * @param uuid：回复的uuid值
+     */
+    function deleteReply(uuid) {
+        $.get({
+            url: "[[@{/song/deleteReply.do/}]]" + uuid,
+            success: function (data) {
+                if (data === "已删除") {
+                    window.location.reload();
+                }
+            }
+        })
+    }
+
+    /**
+     * 更新用户的个性签名
+     */
+    function updateSignature() {
+        let signature = get("textarea")[0].value;
+        if (!signature) {
+            get("#signature-tip").style.display = "block";
+        } else {
+            $.get({
+                url: "[[@{/user/updateSignature.do/}]]" + signature,
+                success: function (data) {
+                    if (data === "已更新") {
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+    }
+
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+</html>

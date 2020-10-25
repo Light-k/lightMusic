@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--内容-->
+<div class="middle">
+    <div style="margin: 0 auto;padding-top: 100px;font-size: 20px;text-align: center;color: red">
+        <b>错误的状态码：</b><p>[[${status}]]</p>
+        <b>错误的请求：</b><p>[[${path}]]</p>
+        <b>错误发生的时间：</b><p th:text="${#dates.format(timestamp,'yyyy-MM-dd HH:mm:ss')}"></p>
+        <b>错误的提示：</b><p>[[${error}]]</p>
+        <b>错误的信息：</b><p>[[${message}]]</p>
+    </div>
+</div>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+</body>
+</html>

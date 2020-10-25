@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="最好听的、最全的音乐">
+    <meta name="author" content="康旭">
+    <title>light音乐</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <link rel="icon" th:href="@{/ico/light.ico}" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/music/css/light.css}">
+    <link rel="stylesheet" th:href="@{/plugins/adminLTE/css/AdminLTE.css}">
+    <script th:src="@{/music/js/tools.js}"></script>
+</head>
+<body>
+<!--头部导航栏-->
+<div th:replace="~{commons/commons::topBar}"></div>
+<!--内容-->
+<div class="middle">
+    <div style="float: left;width: 100%;height: 90%">
+        <div style="margin: 100px auto;text-align: center;width: 400px;height: 570px;border: 1px solid #000;box-shadow: 0 0 10px #ead5ee;border-radius: 10px;">
+            <form th:action="@{/user/login.do}" method="post">
+                <img style="margin-top: 20px" class="mb-4" th:src="@{/img/light.jpg}" alt="图片加载失败" width="72"
+                     height="72">
+                <h1 style="color:whitesmoke;" class="h3 mb-3 font-weight-normal" th:text="#{login.tip}">Please sign
+                    in</h1>
+                <p th:if="${msg} != '注册成功,请登录'" th:text="${msg}" style="color: red"/>
+                <p th:if="${msg} == '注册成功,请登录'" th:text="${msg}" style="color: green"/>
+                <input style="width: 340px;margin: 0 auto;border-radius: 10px" type="text" name="email"
+                       class="form-control" th:placeholder="#{login.username}" required="">
+                <br>
+                <input style="width: 340px;margin: 0 auto;border-radius: 10px" type="password" name="password"
+                       class="form-control" th:placeholder="#{login.password}" required="">
+                <br>
+                <div class="checkbox mb-3">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a th:href="@{/toRegister.do}"
+                                   class="btn btn-sm btn-block">[[#{login.registerUser}]]</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a th:href="@{/toAppeal.do}" class="btn btn-sm btn-light">[[#{login.forget}]]</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <button style="width: 340px;margin: 0 auto;border-radius: 20px" class="btn btn-lg btn-primary btn-block"
+                        type="submit">[[#{login.btn}]]
+                </button>
+                <p class="mt-5 mb-3 text-muted">© light音乐</p>
+                <a class="btn btn-sm" th:href="@{/toLogin.do(l='zh_CN')}">中文</a>
+                <a class="btn btn-sm" th:href="@{/toLogin.do(l='en_US')}">English</a>
+            </form>
+        </div>
+    </div>
+</div>
+<!--底部信息提示栏-->
+<div th:replace="~{commons/commons::footBar}"></div>
+</body>
+<script th:src="@{/js/cookie.js}"></script>
+<script>
+    let queryName = get("#queryName");
+    queryName.onkeypress = handleEnter;
+
+    /**
+     * 回车提交事件
+     * @param event
+     */
+    function handleEnter(event) {
+        if (event.which === 13) {
+            window.location.href = "[[@{/song/query.do/}]]" + queryName.value;
+        }
+    }
+</script>
+</html>
