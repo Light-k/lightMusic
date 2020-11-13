@@ -1,9 +1,19 @@
 程序介绍：
 
-该程序-light音乐网站是由本人用时一个多月独立完成的一个基于springboot的音乐分权视听网站
+该程序-light音乐网站是由本人用时两个月独立完成的一个基于springboot的在线音乐分权视听网站
 
-该项目涉及的技术栈：springboot + thymeleaf + H5 + js + jquery + bootstrap + mysql + maven + linux + git
 
+
+该项目涉及的技术栈：
+
+
+    前端：BootStrap，Thymeleaf，JavaScript，JQuery，DIV+CSS
+    后端：SpringBoot + Spring + SpringMVC + MyBatis
+    数据库：Mysql
+    管理工具：Maven，Git
+    操作系统：Windows10，Linux
+    
+    
 该项目的结构（功能模块）：
 
   前台：
@@ -55,5 +65,5 @@
   对于阿里云服务器的部署以及linux环境的搭建，在这里就不详细说明了，想了解的朋友们欢迎来找我
       
       
-本程序欢迎喜欢学习的程序猿，这个项目适用于毕业设计呦  毕竟我做这个就是为了毕设哈 欢迎大家来与我交流，觉得还可以的麻烦帮忙点点赞啦
+本程序欢迎喜欢学习的程序猿，这个项目适用于毕业设计呦  欢迎大家来与我交流，觉得还可以的麻烦帮忙点点赞啦
 此处是我的联系方式： 1343450971（QQ）
