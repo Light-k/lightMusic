@@ -7,8 +7,8 @@
 该项目涉及的技术栈：
 
 
-    前端：BootStrap，Thymeleaf，JavaScript，JQuery，DIV+CSS
-    后端：SpringBoot + Spring + SpringMVC + MyBatis
+    前端：BootStrap，JavaScript，JQuery，DIV+CSS
+    后端：SpringBoot + Thymeleaf + Spring + SpringMVC + MyBatis + Spring Security
     数据库：Mysql
     管理工具：Maven，Git
     操作系统：Windows10，Linux
@@ -19,10 +19,10 @@
   前台：
   
   
-      用户的注册和登录和注销和编辑个人信息以及申诉功能
+      用户的注册和登录和注销和编辑个人信息以及申诉功能（邮件功能）
       
       
-      音乐榜单的展示
+      实时更新的音乐榜单的展示（cron表达式）
       
       
       音乐的搜索功能（可以根据歌曲名称/歌手名称/专辑名称进行搜索）
