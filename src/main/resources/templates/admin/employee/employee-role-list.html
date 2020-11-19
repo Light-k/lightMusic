@@ -129,7 +129,7 @@
                                 <td class="text-center" th:text="${role.getRoleDesc()}"></td>
                                 <td class="text-center">
                                     <a class="btn btn-sm btn-primary"
-                                       th:href="@{/toAddEmployeeRole.do/}+${employee.getUuid()}">添加员工身份</a>
+                                       th:href="@{/admin/toAddEmployeeRole.do/}+${employee.getUuid()}">添加员工身份</a>
                                     &nbsp; | &nbsp;
                                     <a class="btn btn-sm btn-dark"
                                        th:onclick="goOut([[${employee.getUuid()}]])">申请离职</a>
